@@ -1,0 +1,16 @@
+# Root .gitignore
+
+# Backend folder exclusions
+krupa_backend/target/
+krupa_backend/*.class
+
+# Frontend folder exclusions
+krupa_Web/node_modules/
+krupa_Web/.angular/
+krupa_Web/dist/
+
+# Development tools and junk files
+.idea/
+.vscode/
+.DS_Store
+*.log
