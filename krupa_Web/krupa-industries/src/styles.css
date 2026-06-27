@@ -1,0 +1,411 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bg-canvas: #e6f0f0;        /* Soft premium duck-egg background */
+  --surface-clean: #ffffff;
+  --text-dark: #071c35;        /* Deep luxury navy ink font color */
+  --text-slate: #52667d;
+  --brand-navy: #0b2240;
+}
+
+html, body, app-root {
+  background-color: #ffffff !important;
+  margin: 0; padding: 0; min-height: 100vh;
+  font-family: var(--font-sans) !important;
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Unified Navigation Tweaks */
+.navbar {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* ==========================================================================
+   REAL ESTATE SHAPING (Asymmetrical Split Layout)
+   ========================================================================== */
+.top-announcement-bar {
+  background-color: #05162e;
+  color: #ffffff;
+  text-align: center;
+  padding: 0.65rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.split-hero-container {
+  display: flex;
+  background-color: var(--bg-canvas);
+  min-height: 560px;
+  position: relative;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+@media(max-width: 992px) {
+  .split-hero-container { flex-direction: column; }
+  .hero-left-panel, .hero-right-panel { width: 100% !important; padding: 3rem 1.5rem !important; }
+  .hero-right-panel { min-height: 350px; }
+}
+
+.hero-left-panel {
+  width: 50%;
+  padding: 6rem 4rem 6rem 7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.hero-display-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -1.5px;
+  margin: 0 0 2rem 0;
+}
+
+.hero-right-panel {
+  width: 50%;
+  position: relative;
+  background-color: var(--bg-canvas);
+}
+
+.curved-image-wrapper {
+  width: 100%; height: 100%;
+  position: relative; overflow: hidden;
+  border-bottom-left-radius: 360px 540px;
+}
+
+.curved-image-wrapper img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+
+.watermark-accent-text {
+  position: absolute;
+  bottom: 2rem; right: 4rem;
+  font-size: 6rem; font-weight: 800;
+  color: rgba(255, 255, 255, 0.25);
+  pointer-events: none; letter-spacing: -2px;
+}
+
+/* Floating Tab Console Filter */
+.tabbed-filter-widget {
+  max-width: 540px; width: 100%;
+}
+
+.filter-tabs {
+  display: flex; gap: 0.35rem; margin-bottom: -1px;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-bottom: none;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.85rem; font-weight: 700;
+  color: var(--text-slate);
+  border-top-left-radius: 8px; border-top-right-radius: 8px;
+  cursor: pointer; transition: all 0.2s ease;
+}
+
+.tab-btn:hover { background: rgba(255, 255, 255, 0.8); color: var(--text-dark); }
+
+.active-tab {
+  background: #ffffff !important;
+  color: var(--text-dark) !important;
+  padding-bottom: 0.75rem;
+}
+
+.filter-main-box {
+  background: #ffffff; border-radius: 12px; border-top-left-radius: 0;
+  padding: 1.15rem 1.5rem; display: flex; align-items: center; gap: 1rem;
+  box-shadow: 0 15px 35px -10px rgba(7, 28, 53, 0.1);
+}
+
+.filter-inner-field { display: flex; flex-direction: column; flex-shrink: 0; }
+.expand-field { flex-grow: 1; }
+.filter-inner-field label { font-size: 0.75rem; font-weight: 700; color: var(--text-slate); margin-bottom: 0.25rem; }
+
+.filter-inner-field select, .filter-inner-field input {
+  border: none; background: transparent; font-family: var(--font-sans);
+  font-weight: 600; font-size: 0.9rem; color: var(--text-dark); padding: 0.25rem 0;
+}
+.filter-inner-field select:focus, .filter-inner-field input:focus { outline: none; }
+.filter-divider { width: 1px; height: 35px; background-color: #cbd5e1; flex-shrink: 0; }
+
+.search-circle-btn {
+  background-color: var(--brand-navy); border: none; width: 44px; height: 44px;
+  border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.2s;
+}
+.search-circle-btn:hover { background-color: #2563eb; }
+.search-icon { color: white; font-size: 1.05rem; }
+
+/* Display Presentation Grids */
+.unique-grid-container { max-width: 1200px; margin: 4rem auto; padding: 0 2rem; }
+.section-header-centered { text-align: center; margin-bottom: 4rem; }
+.section-header-centered h2 { font-size: 2.25rem; font-weight: 800; margin: 0 0 0.5rem 0; }
+.section-header-centered p { color: var(--text-slate); font-size: 1.05rem; }
+
+.project-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem;
+}
+
+.project-card {
+  background: #ffffff; border-radius: 16px; overflow: hidden;
+  border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.3s ease;
+}
+.project-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); }
+
+.image-container { position: relative; height: 240px; background-color: #f8fafc; }
+.image-container img { width: 100%; height: 100%; object-fit: cover; }
+
+.type-tag-status {
+  position: absolute; top: 1rem; left: 1rem; padding: 0.35rem 0.75rem;
+  font-size: 0.7rem; font-weight: 700; border-radius: 4px; color: white; text-transform: uppercase;
+}
+.sale-tag { background-color: #10b981; }
+.rent-tag { background-color: #3b82f6; }
+.offplan-tag { background-color: #d97706; }
+
+.card-content { padding: 1.75rem; }
+.card-price-tag { font-size: 1.35rem; font-weight: 800; color: #2563eb; margin: 0 0 0.4rem 0; }
+.card-content h3 { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem 0; }
+.meta-info { display: flex; gap: 0.5rem; color: var(--text-slate); font-size: 0.85rem; margin-bottom: 1rem; }
+.description { color: var(--text-slate); font-size: 0.9rem; line-height: 1.5; margin: 0 0 1.5rem 0; }
+
+.btn-primary-action {
+  width: 100%; background: var(--brand-navy); color: white;
+  padding: 0.75rem; font-weight: 700; border: none; border-radius: 8px; cursor: pointer;
+}
+.btn-primary-action:hover { background: #2563eb; }
+
+/* ==========================================================================
+   ULTRA-LUXURY FURNITURE SHOWROOM DESIGN
+   ========================================================================= */
+.top-showroom-ticker {
+  background-color: #071c35; color: #ffffff; text-align: center;
+  padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+}
+
+.showroom-container { max-width: 1240px; margin: 4rem auto; padding: 0 2rem; }
+.showroom-header { margin-bottom: 3rem; }
+.header-pretitle { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #2563eb; letter-spacing: 1.5px; display: block; margin-bottom: 0.25rem; }
+.showroom-header h2 { font-size: 2.5rem; font-weight: 800; color: #071c35; margin: 0 0 0.5rem 0; letter-spacing: -1px; }
+.showroom-header p { color: #52667d; font-size: 1.05rem; }
+
+.showroom-tabs-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1.25rem; }
+.showroom-tab-pill { background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 700; color: #52667d; border-radius: 30px; cursor: pointer; transition: all 0.2s ease; }
+.showroom-tab-pill:hover { background: #edf2f7; color: #071c35; }
+.active-pill { background: #071c35 !important; color: #ffffff !important; border-color: #071c35 !important; box-shadow: 0 4px 12px rgba(7, 28, 53, 0.15); }
+
+.showroom-split-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 4rem; margin-top: 3rem; align-items: start; }
+@media (max-width: 1024px) { .showroom-split-grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+.showroom-products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
+.luxury-product-card { background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(7, 28, 53, 0.02); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
+.luxury-product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 32px -10px rgba(7, 28, 53, 0.08); border-color: rgba(59, 130, 246, 0.2); }
+
+.product-image-frame { position: relative; height: 220px; width: 100%; overflow: hidden; background-color: #f8fafc; }
+.product-image-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.luxury-product-card:hover .product-image-frame img { transform: scale(1.04); }
+.product-badge-tag { position: absolute; top: 1rem; left: 1rem; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(4px); padding: 0.3rem 0.65rem; font-size: 0.65rem; font-weight: 800; color: #071c35; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+.product-details-frame { padding: 1.75rem; display: flex; flex-direction: column; flex-grow: 1; }
+.product-details-frame h3 { font-size: 1.25rem; font-weight: 700; color: #071c35; margin: 0 0 0.25rem 0; letter-spacing: -0.3px; }
+.product-reference { font-size: 0.85rem; color: #52667d; margin: 0 0 1.5rem 0; }
+.product-footer-row { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 1.25rem; border-top: 1px solid #f1f5f9; }
+.moq-indicator-badge { font-size: 0.75rem; font-weight: 700; color: #52667d; background: #f1f5f9; padding: 0.35rem 0.65rem; border-radius: 6px; }
+
+.luxury-counter-input { display: flex; align-items: center; gap: 0.5rem; }
+.luxury-counter-input label { font-size: 0.75rem; font-weight: 700; color: #52667d; }
+.luxury-counter-input input { width: 60px; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-sans); font-weight: 700; text-align: center; color: #071c35; background: #f8fafc; transition: all 0.2s ease; }
+.luxury-counter-input input:focus { outline: none; border-color: #071c35; background: #ffffff; box-shadow: 0 0 0 3px rgba(7, 28, 53, 0.05); }
+
+/* Manifest Invoicing Workspace */
+.manifest-sticky-panel { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 2.25rem; box-shadow: 0 15px 35px -10px rgba(7, 28, 53, 0.08); position: sticky; top: 7rem; }
+.manifest-header h3 { font-size: 1.4rem; font-weight: 800; color: #071c35; margin: 0 0 0.35rem 0; letter-spacing: -0.5px; }
+.manifest-header p { font-size: 0.9rem; color: #52667d; margin: 0 0 2rem 0; line-height: 1.4; }
+
+.luxury-input-group { margin-bottom: 1.25rem; }
+.luxury-input-group label { display: block; font-size: 0.8rem; font-weight: 700; color: #071c35; margin-bottom: 0.5rem; }
+.luxury-input-group input { width: 100%; box-sizing: border-box; padding: 0.85rem 1rem; border: 1px solid #cbd5e1; border-radius: 12px; font-family: var(--font-sans); font-weight: 500; background: #f8fafc; transition: all 0.2s ease; }
+.luxury-input-group input:focus { outline: none; border-color: #071c35; background: #ffffff; }
+
+.manifest-summary-card { background: #f8fafc; border: 1px dashed #cbd5e1; padding: 1.25rem; border-radius: 14px; margin: 1.75rem 0; }
+.manifest-summary-card h4 { margin: 0 0 0.75rem 0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: #52667d; }
+.manifest-line-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 500; padding: 0.35rem 0; color: #071c35; }
+.item-name-truncate { max-width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item-qty-pill { font-weight: 700; background: #ffffff; padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 0.8rem; }
+
+.transmit-manifest-btn { width: 100%; background: #071c35; color: #ffffff; padding: 1rem; font-size: 0.95rem; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; }
+.transmit-manifest-btn:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2); }
+
+/* Global Footer Alignment */
+.footer {
+  text-align: center; padding: 3rem 1rem; color: var(--text-slate);
+  font-size: 0.85rem; font-weight: 500; border-top: 1px solid #e2e8f0;
+  background-color: #ffffff; margin-top: 8rem;
+}
+
+/* ==========================================================================
+   TRUE PREMIUM & BALANCED FOUNDER SPOTLIGHT SECTION
+   ========================================================================== */
+/* ==========================================================================
+   PREMIUM SEAMLESS LIGHT FOUNDER SECTION (Matches Entire Webpage)
+   ========================================================================== */
+.founder-section {
+  background: #ffffff; /* Blends seamlessly with your main webpage body */
+  padding: 6rem 0;
+  margin-top: 4rem;
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid #e2e8f0; /* Crisp, subtle separating line */
+}
+
+.founder-card {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 5.5rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+  .founder-card {
+    flex-direction: column;
+    gap: 3.5rem;
+    text-align: center;
+  }
+  .founder-image-zone, .founder-info-zone {
+    width: 100% !important;
+  }
+  .founder-info-zone blockquote {
+    border-left: none !important;
+    padding-left: 0 !important;
+    text-align: center;
+  }
+}
+
+/* Studio Portrait Frame Layout */
+.founder-image-zone {
+  width: 38%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.founder-image-zone img {
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px -10px rgba(7, 28, 53, 0.06); /* Sophisticated light depth shadow */
+  border: 1px solid #e2e8f0;
+}
+
+.founder-experience-badge {
+  position: absolute;
+  bottom: -0.75rem;
+  right: -0.75rem;
+  background: #071c35; /* Powerful deep corporate navy badge contrast */
+  color: #ffffff;
+  padding: 0.65rem 1.35rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 10px 20px rgba(7, 28, 53, 0.12);
+}
+
+/* High-Contrast Crisp Typography Zone */
+.founder-info-zone {
+  width: 62%;
+  text-align: left;
+}
+
+.founder-pretitle {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #2563eb; /* Vibrant blue section label */
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.founder-info-zone h2 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #071c35 !important; /* Perfect contrast navy typography matching your main headers */
+  margin: 0 0 1.75rem 0;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.founder-info-zone blockquote {
+  margin: 0 0 2.25rem 0;
+  padding: 0 0 0 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.65;
+  color: #475569 !important; /* Elegant charcoal color for professional reading flow */
+  font-style: italic;
+  border-left: 3px solid #2563eb; /* Signature accent brand line */
+}
+
+.founder-profile-meta {
+  margin-bottom: 1.75rem;
+}
+
+.founder-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #071c35 !important;
+  margin: 0 0 0.2rem 0;
+}
+
+.founder-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b !important;
+  margin: 0;
+}
+
+.founder-signature-container {
+  display: inline-block;
+  text-align: left;
+}
+
+.signature-line {
+  width: 130px;
+  height: 1px;
+  background-color: #cbd5e1;
+  margin-bottom: 0.5rem;
+}
+
+.signature-subtext {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.admin-link {
+  color: #6c757d; /* Muted gray so it doesn't stand out to customers */
+  font-size: 14px;
+  text-decoration: none;
+  margin-left: 15px;
+}
+.admin-link:hover {
+  color: #212529;
+}

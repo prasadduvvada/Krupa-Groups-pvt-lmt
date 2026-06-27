@@ -1,0 +1,34 @@
+<nav class="navbar" *ngIf="authService.isLoggedIn()" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1.25rem 2rem;">
+  <div class="nav-container" style="max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+    <a routerLink="/admin/dashboard" class="brand-logo" style="font-size: 1.25rem; font-weight: 700; color: #0f172a; text-decoration: none;">Krupa Industries Admin</a>
+    
+    <div class="nav-links">
+      <a routerLink="/admin/dashboard" routerLinkActive="active-link">📊 Dashboard</a>
+      <a routerLink="/real-estate" routerLinkActive="active-link">🏗️ Real Estate</a>
+      <a routerLink="/furniture" routerLinkActive="active-link">🛋️ Furniture</a>
+      <a routerLink="/expenses" routerLinkActive="active-link">📉 Expenses</a>
+      <a routerLink="/login" (click)="authService.logout()" style="color: #dc3545; font-weight: bold; margin-left: 2rem; text-decoration: none;">Sign Out</a>
+    </div>
+  </div>
+</nav>
+
+<nav class="navbar" *ngIf="!authService.isLoggedIn()" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1.25rem 2rem;">
+  <div class="nav-container" style="max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+    <a routerLink="/real-estate" class="brand-logo" style="font-size: 1.15rem; font-weight: 800; color: #0f172a; text-decoration: none; letter-spacing: -0.5px;">KRUPA Groups Pvt Limited</a>
+    
+    <div class="nav-links" style="display: flex; align-items: center;">
+      <a routerLink="/real-estate" routerLinkActive="active-link" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Real Estate</a>
+      <a routerLink="/furniture" routerLinkActive="active-link" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Wholesale Furniture</a>
+      <a routerLink="/real-estate" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Contact Us</a>
+      <a routerLink="/login" style="color: #1e3a8a; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 600; background: #eff6ff; padding: 0.5rem 1rem; border-radius: 6px;">Admin Login</a>
+    </div>
+  </div>
+</nav>
+
+<main class="content-area" [style.padding]="authService.isLoggedIn() ? '2rem' : '0'">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer" style="text-align: center; padding: 2.5rem 1rem; color: #475569; font-size: 0.9rem; border-top: 1px solid #e2e8f0; background-color: #ffffff;">
+  <p>© 2026 Krupa Groups. All Rights Reserved.</p>
+</footer>

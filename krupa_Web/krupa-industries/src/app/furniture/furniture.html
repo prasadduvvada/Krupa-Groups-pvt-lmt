@@ -1,0 +1,188 @@
+<!-- ======================================================================= -->
+<!-- 🔐 MODE 1: ADMIN MANAGEMENT VIEW (Only shows when logged in)             -->
+<!-- ======================================================================= -->
+<div class="furniture-admin-container" style="padding: 40px max(2rem, (100vw - 1200px)/2); font-family: 'Inter', system-ui, sans-serif; background-color: #f8fafc; min-height: 100vh;" *ngIf="authService.isLoggedIn()">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+    <div>
+      <h2 style="margin: 0 0 4px 0; font-size: 1.75rem; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">Furniture Stock Control</h2>
+      <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Wholesale design catalog indices and valuation controls tracking.</p>
+    </div>
+    <button (click)="openAddModal()" style="padding: 12px 24px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2); display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 1.1rem;">+</span> Register Design Item
+    </button>
+  </div>
+
+  <div style="background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); overflow: hidden;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+          <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">Product Stream</th>
+          <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">Item Name</th>
+          <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">Category</th>
+          <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">SKU Code</th>
+          <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">Base Price</th>
+          <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">Dimensions</th>
+          <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">Timber Core</th>
+          <th style="padding: 16px 24px; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; text-align: center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of furnitureList" style="border-bottom: 1px solid #e2e8f0;" class="table-row-hover">
+          <td style="padding: 16px 24px;">
+            <img [src]="getImageUrl(item.id)" alt="stream" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc; display: block;"/>
+          </td>
+          <td style="padding: 16px 24px; font-weight: 700; color: #0f172a;">{{ item.name }}</td>
+          <td style="padding: 16px 24px; color: #475569;"><span style="background: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-weight: 500;">{{ item.category }}</span></td>
+          <td style="padding: 16px 24px;"><code style="font-family: monospace; font-size: 0.85rem; background: #f8fafc; padding: 4px 8px; border-radius: 4px; color: #0f172a;">{{ item.modelNumber }}</code></td>
+          <td style="padding: 16px 24px; font-weight: 700; color: #0f172a;">₹{{ item.price | number:'1.2-2' }}</td>
+          <td style="padding: 16px 24px; color: #475569;">{{ item.dimensions }}</td>
+          <td style="padding: 16px 24px; color: #475569; font-weight: 500;">🌳 {{ item.woodType }}</td>
+          
+          <td style="padding: 16px 24px; text-align: center;">
+            <div style="display: flex; gap: 8px; justify-content: center; align-items: center;">
+              <button (click)="openEditModal(item)" style="padding: 8px 14px; background: #ffffff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Edit Entry</button>
+              <button (click)="onDeleteFurniture(item.id)" style="padding: 8px 14px; background: #fff5f5; color: #e11d48; border: 1px solid #fee2e2; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s ease;">Erase</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="isModalOpen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 2000;">
+    <div style="background: white; padding: 32px; border-radius: 16px; width: 520px; max-width: 92%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);">
+      <h3 style="margin: 0 0 24px 0; font-size: 1.35rem; font-weight: 800; color: #0f172a;">Stock Sheet Registry</h3>
+      <form [formGroup]="furnitureForm" (ngSubmit)="onSaveFurniture()">
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #334155;">Product Name Designation*</label>
+          <input type="text" formControlName="name" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" />
+        </div>
+        <div style="display: flex; gap: 14px; margin-bottom: 14px;">
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #334155;">Category Tag*</label>
+            <input type="text" formControlName="category" placeholder="e.g., Dining, Sofa" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" />
+          </div>
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #334155;">Model SKU Code*</label>
+            <input type="text" formControlName="modelNumber" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" />
+          </div>
+        </div>
+        <div style="display: flex; gap: 14px; margin-bottom: 14px;">
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #334155;">Base Price Value*</label>
+            <input type="text" formControlName="price" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" />
+          </div>
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #334155;">Timber Core Wood*</label>
+            <input type="text" formControlName="woodType" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" />
+          </div>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #334155;">Engineering Sizing Dimensions*</label>
+          <input type="text" formControlName="dimensions" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" />
+        </div>
+        <div style="margin-bottom: 24px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px dashed #cbd5e1;">
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" (click)="closeModal()" style="padding: 10px 20px; background: #f1f5f9; color: #475569; border: none; border-radius: 8px;">Cancel</button>
+          <button type="submit" [disabled]="furnitureForm.invalid" style="padding: 10px 20px; background: #0f172a; color: white; border: none; border-radius: 8px;">Commit Stock</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- ======================================================================= -->
+<!-- 🌍 MODE 2: PUBLIC CUSTOMER VIEW (Shows when logged out)                 -->
+<!-- ======================================================================= -->
+<div class="public-storefront-container" style="padding: 60px max(2rem, (100vw - 1200px)/2) 100px max(2rem, (100vw - 1200px)/2); font-family: 'Inter', system-ui, sans-serif; background-color: #fafbfe; min-height: 100vh;" *ngIf="!authService.isLoggedIn()">
+  
+  <div style="margin-bottom: 48px; position: relative;">
+    <span style="color: #2563eb; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; display: block; margin-bottom: 8px;">Krupa Premium Craftsmanship</span>
+    <h1 style="margin: 0 0 16px 0; font-size: 2.75rem; font-weight: 900; color: #0b1e36; letter-spacing: -1px; line-height: 1.15;">Wholesale Studio Design Catalog</h1>
+    <p style="margin: 0; color: #475569; font-size: 1.05rem; line-height: 1.6; max-width: 740px; font-weight: 500;">
+      Explore our architectural timber fixtures portfolio. Each batch is constructed from high-density, seasoned native wood cores tailored to long-term structural integrity.
+    </p>
+    <div style="width: 70px; height: 4px; background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%); border-radius: 2px; margin-top: 24px;"></div>
+  </div>
+
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
+    <button (click)="currentCategory = 'all'"
+            [style.background]="currentCategory === 'all' ? '#0b1e36' : '#ffffff'"
+            [style.color]="currentCategory === 'all' ? '#ffffff' : '#475569'"
+            [style.border-color]="currentCategory === 'all' ? '#0b1e36' : '#cbd5e1'"
+            style="padding: 10px 22px; border: 1px solid; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
+      ✨ All Collection
+    </button>
+    <button (click)="currentCategory = 'DINING'"
+            [style.background]="currentCategory === 'DINING' ? '#0b1e36' : '#ffffff'"
+            [style.color]="currentCategory === 'DINING' ? '#ffffff' : '#475569'"
+            [style.border-color]="currentCategory === 'DINING' ? '#0b1e36' : '#cbd5e1'"
+            style="padding: 10px 22px; border: 1px solid; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
+      🪑 Luxury Dining Sets
+    </button>
+    <button (click)="currentCategory = 'SOFA'"
+            [style.background]="currentCategory === 'SOFA' ? '#0b1e36' : '#ffffff'"
+            [style.color]="currentCategory === 'SOFA' ? '#ffffff' : '#475569'"
+            [style.border-color]="currentCategory === 'SOFA' ? '#0b1e36' : '#cbd5e1'"
+            style="padding: 10px 22px; border: 1px solid; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
+      🛋️ Living & Sofas
+    </button>
+    <button (click)="currentCategory = 'BED'"
+            [style.background]="currentCategory === 'BED' ? '#0b1e36' : '#ffffff'"
+            [style.color]="currentCategory === 'BED' ? '#ffffff' : '#475569'"
+            [style.border-color]="currentCategory === 'BED' ? '#0b1e36' : '#cbd5e1'"
+            style="padding: 10px 22px; border: 1px solid; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
+      🛏️ Master Beds
+    </button>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 36px;">
+    <ng-container *ngFor="let item of furnitureList">
+      <div *ngIf="currentCategory === 'all' || item.category.toUpperCase() === currentCategory" class="luxury-card" style="background: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; position: relative;">
+        
+        <div style="position: relative; height: 250px; width: 100%; background-color: #f1f5f9; overflow: hidden;">
+          <img [src]="getImageUrl(item.id)" alt="{{ item.name }}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+          <span style="position: absolute; top: 16px; left: 16px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); color: #0b1e36; padding: 6px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">
+            💎 {{ item.category }}
+          </span>
+        </div>
+
+        <div style="padding: 28px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; background: #ffffff;">
+          <div style="margin-bottom: 24px;">
+            <h3 style="margin: 0 0 6px 0; font-size: 1.35rem; color: #0b1e36; font-weight: 800; letter-spacing: -0.3px; line-height: 1.25;">{{ item.name }}</h3>
+            <p style="margin: 0 0 16px 0; font-size: 0.8rem; font-family: monospace; color: #94a3b8; font-weight: 700;">SKU PROFILE: {{ item.modelNumber }}</p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <span style="background: #f8fafc; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; border: 1px solid #e2e8f0;">📐 {{ item.dimensions }}</span>
+              <span style="background: #f8fafc; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; border: 1px solid #e2e8f0;">🪵 Core: {{ item.woodType }}</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+            <div>
+              <span style="display: block; font-size: 0.72rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px;">Wholesale Base</span>
+              <span style="font-size: 1.5rem; font-weight: 900; color: #0b1e36;">₹{{ item.price | number:'1.0-0' }}</span>
+            </div>
+            <button style="padding: 12px 20px; background: #0b1e36; color: #ffffff; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(11,30,54,0.15);">
+              Inquire Specs
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
+
+  <div *ngIf="furnitureList.length === 0" style="text-align: center; padding: 100px 40px; border: 2px dashed #cbd5e1; border-radius: 20px; margin-top: 20px; background-color: #f8fafc; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <div style="font-size: 3rem; margin-bottom: 16px;">📦</div>
+    <h4 style="margin: 0 0 8px 0; font-size: 1.15rem; color: #0b1e36; font-weight: 700;">Design Registries Loading</h4>
+    <p style="color: #64748b; font-size: 0.95rem; margin: 0; font-weight: 500;">Our wholesale production stock lines are updating with the warehouse plants. Please check back shortly.</p>
+  </div>
+
+</div>
+
+<style>
+  .table-row-hover:hover { background-color: #f8fafc !important; transition: background 0.15s ease; }
+  .luxury-card:hover { transform: translateY(-8px); box-shadow: 0 25px 35px -5px rgba(0,0,0,0.06), 0 10px 15px -5px rgba(0,0,0,0.03) !important; }
+</style>

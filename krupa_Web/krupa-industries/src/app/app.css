@@ -1,0 +1,205 @@
+/* Modern Layout Theme Variables (Kept & Shared) */
+:root {
+  --primary: #1e3a8a;
+  --primary-light: #eff6ff;
+  --text-dark: #0f172a;
+  --text-muted: #475569;
+  --bg-light: #f8fafc;
+  --border-color: #e2e8f0;
+  --success: #28a745;
+  --danger: #dc3545;
+}
+
+/* --- Global Reset & Scrollbars --- */
+body {
+  margin: 0;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-light);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Minimal Modern Navbar Layout (Kept) */
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.25rem 2rem;
+}
+
+.nav-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-left: 2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+/* Automatically highlighted by Angular Router */
+.nav-links a.active-link {
+  color: var(--primary);
+  background-color: var(--primary-light);
+  font-weight: 600;
+}
+
+/* Main Content Container wrapper (Kept) */
+.content-area {
+  min-height: 75vh;
+  background-color: var(--bg-light);
+  padding: 2rem;
+}
+
+/* --- Enterprise Data Tables (Added) --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  margin-bottom: 40px;
+}
+
+tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.15s ease-in-out;
+}
+
+tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+th {
+  padding: 12px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 700;
+  background: #f8fafc;
+  border-bottom: 2px solid var(--border-color);
+}
+
+td {
+  padding: 12px;
+}
+
+/* --- Form Controls & Interactive Inputs (Added) --- */
+input, select, textarea {
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+}
+
+/* --- Interactive Buttons (Added) --- */
+button {
+  transition: transform 0.1s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+button:hover:not([disabled]) {
+  filter: brightness(92%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+button:active:not([disabled]) {
+  transform: scale(0.98);
+}
+
+/* --- High-End Animated Backdrop Modal Overlays (Added) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-card {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Elegant Clean Footer (Kept) */
+.footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border-color);
+  background-color: #ffffff;
+}
+
+.contact-btn {
+  text-decoration: none;
+  color: #071c35;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.contact-btn:hover {
+  background-color: #f1f5f9;
+  color: #2563eb;
+}
