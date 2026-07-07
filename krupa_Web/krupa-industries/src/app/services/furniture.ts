@@ -16,7 +16,7 @@ export interface Furniture {
   providedIn: 'root'
 })
 export class FurnitureService {
-  private apiUrl = 'http://localhost:8080/api/furniture';
+  private apiUrl = 'https://krupa-groups-pvt-lmt.onrender.com/api/furniture';
 
   constructor(private http: HttpClient) {}
 

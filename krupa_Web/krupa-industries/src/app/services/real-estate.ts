@@ -21,7 +21,7 @@ export interface Project {
 })
 export class RealEstateService {
   // Points directly to your running Spring Boot project endpoints
-  private apiUrl = 'http://localhost:8080/api/projects';
+  private apiUrl = 'https://krupa-groups-pvt-lmt.onrender.com/api/projects';
 
   constructor(private http: HttpClient) {}
 

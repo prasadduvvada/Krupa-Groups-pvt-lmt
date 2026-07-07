@@ -17,7 +17,7 @@ export interface Expense {
   providedIn: 'root'
 })
 export class ExpenseService {
-  private apiUrl = 'http://localhost:8080/api/expenses';
+  private apiUrl = 'https://krupa-groups-pvt-lmt.onrender.com/api/expenses';
 
   constructor(private http: HttpClient) {}
 

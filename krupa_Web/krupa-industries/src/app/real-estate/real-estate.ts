@@ -109,7 +109,7 @@ export class RealEstateComponent implements OnInit {
   }
 
   getImageUrl(id: number | undefined): string {
-    return id ? `http://localhost:8080/api/projects/${id}/image` : 'assets/placeholder.jpg';
+    return id ? `https://krupa-groups-pvt-lmt.onrender.com/api/projects/${id}/image` : 'assets/placeholder.jpg';
   }
 
   openAddModal(): void {

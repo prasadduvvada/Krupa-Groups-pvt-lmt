@@ -107,7 +107,7 @@ export class FurnitureComponent implements OnInit {
   }
 
   getImageUrl(id: number | undefined): string {
-    return id ? `http://localhost:8080/api/furniture/${id}/image` : 'assets/placeholder.jpg';
+    return id ? `https://krupa-groups-pvt-lmt.onrender.com/api/furniture/${id}/image` : 'assets/placeholder.jpg';
   }
 
   openAddModal(): void {

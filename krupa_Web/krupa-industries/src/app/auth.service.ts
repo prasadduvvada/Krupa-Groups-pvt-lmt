@@ -6,7 +6,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private authUrl = 'http://localhost:8080/api/auth';
+  private authUrl = 'https://krupa-groups-pvt-lmt.onrender.com/api/auth';
   private loggedIn = false;
 
   constructor(private http: HttpClient) {
