@@ -4,10 +4,10 @@ import { AuthService } from './auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  const token = authService.getAuthToken(); // 👈 Grab the token out of sessionStorage
+  const token = authService.getAuthToken();
 
-  // If a token exists and we are hitting your Spring Boot backend, attach it
-  if (token && req.url.includes('localhost:8080')) {
+  // Change: Attach the token to ALL requests going to your backend domain
+  if (token && req.url.includes('krupa-groups-pvt-lmt.onrender.com')) {
     const authRequest = req.clone({
       setHeaders: {
         Authorization: token
