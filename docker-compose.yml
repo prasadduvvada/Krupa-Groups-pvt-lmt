@@ -26,8 +26,8 @@ services:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/krupa_industries
-      - SPRING_DATASOURCE_USERNAME=krupa_admin
-      - SPRING_DATASOURCE_PASSWORD=KrupaSecurePassword2026
+      - SPRING_DATASOURCE_USERNAME=boss
+      - SPRING_DATASOURCE_PASSWORD=Karuna@9985
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
       # Admin login credentials for your startup dashboard
       - ADMIN_USERNAME=Admin
