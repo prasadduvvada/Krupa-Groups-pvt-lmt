@@ -76,7 +76,7 @@ public class configuration {
         // Ensure these match your actual frontend origins
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:4200",
-                "https://krupa-groups-pvt-lmt.onrender.com"
+                "https://krupa-groups-pvt-lmt.vercel.app"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         // Authorization is REQUIRED for Basic Auth to work
