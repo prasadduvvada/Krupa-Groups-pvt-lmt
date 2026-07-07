@@ -1,5 +1,8 @@
-/* Modern Layout Theme Variables (Kept & Shared) */
+/* ======================================================== */
+/* 1. CYBER DARK & ENTERPRISE LAYOUT VARIABLE REGISTRY       */
+/* ======================================================== */
 :root {
+  /* Existing Brand Variables (Preserved) */
   --primary: #1e3a8a;
   --primary-light: #eff6ff;
   --text-dark: #0f172a;
@@ -8,14 +11,27 @@
   --border-color: #e2e8f0;
   --success: #28a745;
   --danger: #dc3545;
+
+  /* Premium Cyber Dark Core Extensions */
+  --bg-main: #090d16;          /* Deep midnight panel canvas background */
+  --panel-dark: #121824;       /* Sleek slate container block panels */
+  --sidebar-dark: #0b0f19;     /* Ultra-dark workspace sidebar menu frame */
+  --accent-blue: #3b82f6;      /* Vibrant interface digital sky blue */
+  --accent-cyan: #0ea5e9;      /* Luminous terminal focus accents */
+  --text-bright: #f8fafc;      /* Crisp title headers */
+  --text-slate: #94a3b8;       /* Medium slate dashboard elements and labels */
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --card-glow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 0 40px rgba(59, 130, 246, 0.03);
 }
 
-/* --- Global Reset & Scrollbars --- */
+/* ======================================================== */
+/* 2. GLOBAL RESET & WEBKIT SCROLLBAR CONFIGURATIONS        */
+/* ======================================================== */
 body {
   margin: 0;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
-  font-family: sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-bright);
+  font-family: system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -24,7 +40,7 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-light);
+  background: var(--bg-main);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb {
@@ -35,7 +51,186 @@ body {
   background: #94a3b8;
 }
 
-/* Minimal Modern Navbar Layout (Kept) */
+/* ======================================================== */
+/* 3. CORE MANAGEMENT SHELL: GRID LAYOUT FRAMES            */
+/* ======================================================== */
+.admin-container {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--bg-main);
+}
+
+.sidebar {
+  background-color: var(--sidebar-dark);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-brand h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+.sidebar-brand p {
+  margin: 2px 0 0 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.logo-icon {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 800;
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+.sidebar-menu {
+  flex: 1;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100vh;
+  background-color: var(--bg-main);
+}
+
+.content-header {
+  background: transparent;
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content-header h1 {
+  color: var(--text-bright);
+  font-size: 1.35rem;
+  margin: 0;
+}
+
+.welcome-text {
+  margin: 2px 0 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.admin-badge {
+  background-color: rgba(14, 165, 233, 0.1);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.dashboard-body {
+  padding: 0 2.5rem 2.5rem 2.5rem;
+  box-sizing: border-box;
+}
+
+/* ======================================================== */
+/* 4. PREMIUM SIDEBAR MENU NAVIGATION LINKS (FIXED INTERFACE)*/
+/* ======================================================== */
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.section-title {
+  font-size: 0.7rem;
+  color: #475569;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+  padding-left: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* Hard reset overriding default browser blue/purple states */
+a.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.85rem 1rem;
+  color: #94a3b8 !important;         /* Slate standard link color assignment */
+  text-decoration: none !important;  /* Strip standard hyperlink underlines */
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  border-left: 3px solid transparent;
+}
+
+/* Hover Interactivity with Micro-Translate Slide Effect */
+a.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-bright) !important;
+  transform: translateX(4px);
+}
+
+/* Premium Cyan/Blue Active Routing Focus Highlight State */
+a.menu-item.active {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, transparent 100%) !important;
+  color: #38bdf8 !important;         /* Cyber neon layout cyan highlight text */
+  border-left: 3px solid #3b82f6 !important; /* Left dashboard border pin */
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.sidebar-footer {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logout-btn:hover {
+  background: linear-gradient(90deg, rgba(220, 53, 69, 0.15) 0%, transparent 100%) !important;
+  color: #f87171 !important;
+  border-left: 3px solid #ef4444 !important;
+}
+
+/* ======================================================== */
+/* 5. PRESERVED ORIGINAL UTILITIES & PUBLIC LANDING COMPONENTS*/
+/* ======================================================== */
+.public-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.public-content {
+  flex: 1;
+}
+
 .navbar {
   background-color: #ffffff;
   border-bottom: 1px solid var(--border-color);
@@ -74,57 +269,54 @@ body {
   background-color: var(--primary-light);
 }
 
-/* Automatically highlighted by Angular Router */
 .nav-links a.active-link {
   color: var(--primary);
   background-color: var(--primary-light);
   font-weight: 600;
 }
 
-/* Main Content Container wrapper (Kept) */
 .content-area {
   min-height: 75vh;
   background-color: var(--bg-light);
   padding: 2rem;
 }
 
-/* --- Enterprise Data Tables (Added) --- */
+/* --- Enterprise Data Tables (Dark Theme Updated) --- */
 table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  background: #ffffff;
+  background: transparent;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   margin-bottom: 40px;
 }
 
 tr {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transition: background-color 0.15s ease-in-out;
 }
 
 tbody tr:hover {
-  background-color: #f8fafc;
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 th {
-  padding: 12px;
-  font-size: 13px;
+  padding: 16px 24px;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-muted);
+  color: #64748b;
   font-weight: 700;
-  background: #f8fafc;
-  border-bottom: 2px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 td {
-  padding: 12px;
+  padding: 16px 24px;
 }
 
-/* --- Form Controls & Interactive Inputs (Added) --- */
+/* --- Form Controls & Interactive Inputs (Preserved) --- */
 input, select, textarea {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   outline: none;
@@ -135,7 +327,7 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
 }
 
-/* --- Interactive Buttons (Added) --- */
+/* --- Interactive Buttons (Preserved) --- */
 button {
   transition: transform 0.1s ease, filter 0.15s ease, box-shadow 0.15s ease;
 }
@@ -147,7 +339,7 @@ button:active:not([disabled]) {
   transform: scale(0.98);
 }
 
-/* --- High-End Animated Backdrop Modal Overlays (Added) --- */
+/* --- High-End Animated Backdrop Modal Overlays (Preserved) --- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -180,7 +372,7 @@ button:active:not([disabled]) {
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Elegant Clean Footer (Kept) */
+/* Elegant Clean Footer (Preserved) */
 .footer {
   text-align: center;
   padding: 2.5rem 1rem;
@@ -202,4 +394,96 @@ button:active:not([disabled]) {
 .contact-btn:hover {
   background-color: #f1f5f9;
   color: #2563eb;
+}
+
+/* --- NEW: MOBILE TOGGLE DESKTOP DEFAULTS --- */
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  color: var(--text-bright);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  outline: none;
+}
+.mobile-sidebar-backdrop {
+  display: none;
+}
+
+/* ======================================================== */
+/* 6. MOBILE RESPONSIVE OVERRIDES                           */
+/* ======================================================== */
+@media (max-width: 768px) {
+  /* Show Hamburger Trigger */
+  .mobile-menu-btn {
+    display: block !important;
+  }
+
+  .content-header {
+    padding: 1rem 1.5rem !important;
+  }
+
+  /* Fix Public Navbar Stacking */
+  .nav-container {
+    flex-direction: column !important;
+    gap: 15px;
+    padding: 10px 0;
+  }
+  
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .nav-links a {
+    margin-left: 0 !important;
+    font-size: 0.85rem !important;
+    padding: 8px 12px !important;
+    background-color: #f8fafc;
+  }
+
+  /* Admin Dashboard Mobile Fix */
+  .admin-container {
+    grid-template-columns: 1fr !important; 
+  }
+  
+  /* Convert Sidebar into an interactive off-canvas slide drawer */
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    bottom: 0;
+    left: -280px; /* Hidden perfectly off-screen left */
+    width: 280px;
+    height: 100vh;
+    z-index: 9999 !important;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 15px 0 30px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Class dynamically added by Angular binding */
+  .sidebar.sidebar-open {
+    left: 0 !important;
+  }
+
+  /* Blur/Dim background backdrop element initialization */
+  .mobile-sidebar-backdrop {
+    display: block !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 8, 16, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 9998 !important;
+  }
+  
+  .dashboard-body {
+    padding: 1rem !important;
+  }
 }

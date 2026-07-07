@@ -1,34 +1,115 @@
-<nav class="navbar" *ngIf="authService.isLoggedIn()" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1.25rem 2rem;">
-  <div class="nav-container" style="max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-    <a routerLink="/admin/dashboard" class="brand-logo" style="font-size: 1.25rem; font-weight: 700; color: #0f172a; text-decoration: none;">Krupa Industries Admin</a>
-    
-    <div class="nav-links">
-      <a routerLink="/admin/dashboard" routerLinkActive="active-link">📊 Dashboard</a>
-      <a routerLink="/real-estate" routerLinkActive="active-link">🏗️ Real Estate</a>
-      <a routerLink="/furniture" routerLinkActive="active-link">🛋️ Furniture</a>
-      <a routerLink="/expenses" routerLinkActive="active-link">📉 Expenses</a>
-      <a routerLink="/login" (click)="authService.logout()" style="color: #dc3545; font-weight: bold; margin-left: 2rem; text-decoration: none;">Sign Out</a>
+<!-- ========================================== -->
+<!-- 1. ADMIN MODE (When Logged In)            -->
+<!-- Uses the Premium Dark Sidebar Grid Layout -->
+<!-- ========================================== -->
+<div class="admin-container" *ngIf="authService.isLoggedIn()">
+  
+  <!-- NEW: Mobile Overlay Backdrop (Fades out the page content when sidebar is open) -->
+  <div class="mobile-sidebar-backdrop" *ngIf="isSidebarOpen" (click)="closeSidebar()"></div>
+
+  <!-- Left Side: Premium Enterprise Sidebar (Binds the open state class) -->
+  <aside class="sidebar" [class.sidebar-open]="isSidebarOpen">
+    <div class="sidebar-brand">
+      <span class="logo-icon">K</span>
+      <div>
+        <h3>KRUPA INDUSTRIES</h3>
+        <p>ADMIN PANEL</p>
+      </div>
     </div>
-  </div>
-</nav>
 
-<nav class="navbar" *ngIf="!authService.isLoggedIn()" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1.25rem 2rem;">
-  <div class="nav-container" style="max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-    <a routerLink="/real-estate" class="brand-logo" style="font-size: 1.15rem; font-weight: 800; color: #0f172a; text-decoration: none; letter-spacing: -0.5px;">KRUPA Groups Pvt Limited</a>
-    
-    <div class="nav-links" style="display: flex; align-items: center;">
-      <a routerLink="/real-estate" routerLinkActive="active-link" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Real Estate</a>
-      <a routerLink="/furniture" routerLinkActive="active-link" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Wholesale Furniture</a>
-      <a routerLink="/real-estate" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Contact Us</a>
-      <a routerLink="/login" style="color: #1e3a8a; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 600; background: #eff6ff; padding: 0.5rem 1rem; border-radius: 6px;">Admin Login</a>
+    <nav class="sidebar-menu">
+      <!-- CORE NAVIGATION -->
+      <div class="menu-section">
+        <a routerLink="/admin/dashboard" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
+          <span class="menu-icon">📊</span>
+          <span class="menu-link-text">Dashboard</span>
+        </a>
+      </div>
+
+      <!-- EXPENSE MANAGEMENT -->
+      <div class="menu-section">
+        <span class="section-title">EXPENSE MANAGEMENT</span>
+        <a routerLink="/expenses" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
+          <span class="menu-icon">📉</span>
+          <span class="menu-link-text">Expenses Overview</span>
+        </a>
+      </div>
+
+      <!-- OPERATIONAL DOMAINS -->
+      <div class="menu-section">
+        <span class="section-title">REAL ESTATE MANAGEMENT</span>
+        <a routerLink="/real-estate" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
+          <span class="menu-icon">🏗️</span>
+          <span class="menu-link-text">Real Estate Projects</span>
+        </a>
+      </div>
+
+      <div class="menu-section">
+        <span class="section-title">FURNITURE MANAGEMENT</span>
+        <a routerLink="/furniture" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
+          <span class="menu-icon">🛋️</span>
+          <span class="menu-link-text">Furniture Products</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Sidebar Footer Sticky Bottom -->
+    <div class="sidebar-footer">
+      <a routerLink="/login" (click)="authService.logout(); closeSidebar()" class="menu-item logout-btn">
+        <span class="menu-icon">🚪</span>
+        <span class="menu-link-text">Sign Out</span>
+      </a>
     </div>
-  </div>
-</nav>
+  </aside>
 
-<main class="content-area" [style.padding]="authService.isLoggedIn() ? '2rem' : '0'">
-  <router-outlet></router-outlet>
-</main>
+  <!-- Right Side: Dashboard Panel Workspace -->
+  <main class="main-content">
+    <header class="content-header">
+      <!-- NEW: Wrapper layout combining hamburger toggle button and dashboard header title -->
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="mobile-menu-btn" (click)="toggleSidebar()">☰</button>
+        <div class="header-title">
+          <h1>Dashboard</h1>
+          <p class="welcome-text">Welcome back, Admin!</p>
+        </div>
+      </div>
+      <div class="header-profile">
+        <span class="admin-badge">Super Admin Connected</span>
+      </div>
+    </header>
 
-<footer class="footer" style="text-align: center; padding: 2.5rem 1rem; color: #475569; font-size: 0.9rem; border-top: 1px solid #e2e8f0; background-color: #ffffff;">
-  <p>© 2026 Krupa Groups. All Rights Reserved.</p>
-</footer>
+    <!-- Main View Workspace for Admin Components -->
+    <div class="dashboard-body">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
+
+
+<!-- ========================================== -->
+<!-- 2. PUBLIC MODE (When Logged Out)          -->
+<!-- Keeps your clean top navbar & global footer -->
+<!-- ========================================== -->
+<div class="public-container" *ngIf="!authService.isLoggedIn()">
+  <nav class="navbar" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1.25rem 2rem;">
+    <div class="nav-container" style="max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+      <a routerLink="/real-estate" class="brand-logo" style="font-size: 1.15rem; font-weight: 800; color: #0f172a; text-decoration: none; letter-spacing: -0.5px;">KRUPA Groups Pvt Limited</a>
+      
+      <div class="nav-links" style="display: flex; align-items: center;">
+        <a routerLink="/real-estate" routerLinkActive="active-link" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Real Estate</a>
+        <a routerLink="/furniture" routerLinkActive="active-link" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Wholesale Furniture</a>
+        <a routerLink="/real-estate" style="color: #475569; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 500;">Contact Us</a>
+        <a routerLink="/login" style="color: #1e3a8a; text-decoration: none; margin-left: 2rem; font-size: 0.95rem; font-weight: 600; background: #eff6ff; padding: 0.5rem 1rem; border-radius: 6px;">Admin Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content view for public pages (no padding needed here as per your configuration) -->
+  <main class="public-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="footer" style="text-align: center; padding: 2.5rem 1rem; color: #475569; font-size: 0.9rem; border-top: 1px solid #e2e8f0; background-color: #ffffff;">
+    <p>© 2026 Krupa Groups. All Rights Reserved.</p>
+  </footer>
+</div>
