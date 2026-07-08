@@ -175,14 +175,13 @@ body {
   text-transform: uppercase;
 }
 
-/* Hard reset overriding default browser blue/purple states */
 a.menu-item {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 0.85rem 1rem;
-  color: #94a3b8 !important;         /* Slate standard link color assignment */
-  text-decoration: none !important;  /* Strip standard hyperlink underlines */
+  color: #94a3b8 !important;
+  text-decoration: none !important;
   border-radius: 8px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -190,18 +189,16 @@ a.menu-item {
   border-left: 3px solid transparent;
 }
 
-/* Hover Interactivity with Micro-Translate Slide Effect */
 a.menu-item:hover {
   background-color: rgba(255, 255, 255, 0.05) !important;
   color: var(--text-bright) !important;
   transform: translateX(4px);
 }
 
-/* Premium Cyan/Blue Active Routing Focus Highlight State */
 a.menu-item.active {
   background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, transparent 100%) !important;
-  color: #38bdf8 !important;         /* Cyber neon layout cyan highlight text */
-  border-left: 3px solid #3b82f6 !important; /* Left dashboard border pin */
+  color: #38bdf8 !important;
+  border-left: 3px solid #3b82f6 !important;
   font-weight: 700;
   text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
 }
@@ -281,7 +278,7 @@ a.menu-item.active {
   padding: 2rem;
 }
 
-/* --- Enterprise Data Tables (Dark Theme Updated) --- */
+/* --- Enterprise Data Tables --- */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -316,7 +313,6 @@ td {
   padding: 16px 24px;
 }
 
-/* --- Form Controls & Interactive Inputs (Preserved) --- */
 input, select, textarea {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   outline: none;
@@ -327,7 +323,6 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
 }
 
-/* --- Interactive Buttons (Preserved) --- */
 button {
   transition: transform 0.1s ease, filter 0.15s ease, box-shadow 0.15s ease;
 }
@@ -339,7 +334,6 @@ button:active:not([disabled]) {
   transform: scale(0.98);
 }
 
-/* --- High-End Animated Backdrop Modal Overlays (Preserved) --- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -372,31 +366,69 @@ button:active:not([disabled]) {
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Elegant Clean Footer (Preserved) */
-.footer {
+/* ======================================================== */
+/* 6. EXTENDED LAYOUT FOOTERS (PUBLIC & ADMIN WORKSPACE)     */
+/* ======================================================== */
+
+/* --- Clean Light Public Footer --- */
+.public-footer {
   text-align: center;
-  padding: 2.5rem 1rem;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  padding: 2rem 1rem;
   border-top: 1px solid var(--border-color);
   background-color: #ffffff;
 }
-
-.contact-btn {
-  text-decoration: none;
-  color: #071c35;
-  font-weight: 700;
+.public-copy {
+  margin: 0 0 4px 0;
   font-size: 0.9rem;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  color: var(--text-muted);
 }
-.contact-btn:hover {
-  background-color: #f1f5f9;
-  color: #2563eb;
+.public-dev-credit {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+.public-credit-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.public-credit-link:hover {
+  text-decoration: underline;
 }
 
-/* --- NEW: MOBILE TOGGLE DESKTOP DEFAULTS --- */
+/* --- Premium Cyber Dark Admin Footer --- */
+.admin-footer {
+  text-align: center;
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--sidebar-dark);
+  margin-top: auto; /* Aligns footer perfectly at container bottom */
+  width: 100%;
+  box-sizing: border-box;
+}
+.admin-copy {
+  margin: 0 0 4px 0;
+  font-size: 0.85rem;
+  color: var(--text-slate);
+}
+.admin-dev-credit {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #475569;
+}
+.admin-credit-link {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(14, 165, 233, 0.2);
+  transition: color 0.2s ease;
+}
+.admin-credit-link:hover {
+  color: var(--text-bright);
+  text-decoration: underline;
+}
+
+/* --- Mobile Toggle Desktop Defaults --- */
 .mobile-menu-btn {
   display: none;
   background: transparent;
@@ -413,10 +445,9 @@ button:active:not([disabled]) {
 }
 
 /* ======================================================== */
-/* 6. MOBILE RESPONSIVE OVERRIDES                           */
+/* 7. MOBILE RESPONSIVE OVERRIDES                           */
 /* ======================================================== */
 @media (max-width: 768px) {
-  /* Show Hamburger Trigger */
   .mobile-menu-btn {
     display: block !important;
   }
@@ -425,7 +456,6 @@ button:active:not([disabled]) {
     padding: 1rem 1.5rem !important;
   }
 
-  /* Fix Public Navbar Stacking */
   .nav-container {
     flex-direction: column !important;
     gap: 15px;
@@ -447,17 +477,15 @@ button:active:not([disabled]) {
     background-color: #f8fafc;
   }
 
-  /* Admin Dashboard Mobile Fix */
   .admin-container {
     grid-template-columns: 1fr !important; 
   }
   
-  /* Convert Sidebar into an interactive off-canvas slide drawer */
   .sidebar {
     position: fixed !important;
     top: 0;
     bottom: 0;
-    left: -280px; /* Hidden perfectly off-screen left */
+    left: -280px;
     width: 280px;
     height: 100vh;
     z-index: 9999 !important;
@@ -465,12 +493,10 @@ button:active:not([disabled]) {
     box-shadow: 15px 0 30px rgba(0, 0, 0, 0.6);
   }
   
-  /* Class dynamically added by Angular binding */
   .sidebar.sidebar-open {
     left: 0 !important;
   }
 
-  /* Blur/Dim background backdrop element initialization */
   .mobile-sidebar-backdrop {
     display: block !important;
     position: fixed !important;

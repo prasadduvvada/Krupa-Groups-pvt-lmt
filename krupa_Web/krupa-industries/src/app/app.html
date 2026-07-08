@@ -1,13 +1,7 @@
-<!-- ========================================== -->
-<!-- 1. ADMIN MODE (When Logged In)            -->
-<!-- Uses the Premium Dark Sidebar Grid Layout -->
-<!-- ========================================== -->
 <div class="admin-container" *ngIf="authService.isLoggedIn()">
   
-  <!-- NEW: Mobile Overlay Backdrop (Fades out the page content when sidebar is open) -->
   <div class="mobile-sidebar-backdrop" *ngIf="isSidebarOpen" (click)="closeSidebar()"></div>
 
-  <!-- Left Side: Premium Enterprise Sidebar (Binds the open state class) -->
   <aside class="sidebar" [class.sidebar-open]="isSidebarOpen">
     <div class="sidebar-brand">
       <span class="logo-icon">K</span>
@@ -18,7 +12,6 @@
     </div>
 
     <nav class="sidebar-menu">
-      <!-- CORE NAVIGATION -->
       <div class="menu-section">
         <a routerLink="/admin/dashboard" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
           <span class="menu-icon">📊</span>
@@ -26,7 +19,6 @@
         </a>
       </div>
 
-      <!-- EXPENSE MANAGEMENT -->
       <div class="menu-section">
         <span class="section-title">EXPENSE MANAGEMENT</span>
         <a routerLink="/expenses" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
@@ -35,7 +27,6 @@
         </a>
       </div>
 
-      <!-- OPERATIONAL DOMAINS -->
       <div class="menu-section">
         <span class="section-title">REAL ESTATE MANAGEMENT</span>
         <a routerLink="/real-estate" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
@@ -53,7 +44,6 @@
       </div>
     </nav>
 
-    <!-- Sidebar Footer Sticky Bottom -->
     <div class="sidebar-footer">
       <a routerLink="/login" (click)="authService.logout(); closeSidebar()" class="menu-item logout-btn">
         <span class="menu-icon">🚪</span>
@@ -62,10 +52,8 @@
     </div>
   </aside>
 
-  <!-- Right Side: Dashboard Panel Workspace -->
   <main class="main-content">
     <header class="content-header">
-      <!-- NEW: Wrapper layout combining hamburger toggle button and dashboard header title -->
       <div style="display: flex; align-items: center; gap: 16px;">
         <button class="mobile-menu-btn" (click)="toggleSidebar()">☰</button>
         <div class="header-title">
@@ -78,18 +66,23 @@
       </div>
     </header>
 
-    <!-- Main View Workspace for Admin Components -->
     <div class="dashboard-body">
       <router-outlet></router-outlet>
     </div>
+
+    <footer class="admin-footer">
+      <p class="admin-copy">© 2026 <strong>Krupa Industries</strong>. All Rights Reserved.</p>
+      <p class="admin-dev-credit">
+        Designed & Developed by 
+        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="admin-credit-link">
+          Duvvada Lakshmi Prasad
+        </a>
+      </p>
+    </footer>
   </main>
 </div>
 
 
-<!-- ========================================== -->
-<!-- 2. PUBLIC MODE (When Logged Out)          -->
-<!-- Keeps your clean top navbar & global footer -->
-<!-- ========================================== -->
 <div class="public-container" *ngIf="!authService.isLoggedIn()">
   <nav class="navbar" style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1.25rem 2rem;">
     <div class="nav-container" style="max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
@@ -104,12 +97,20 @@
     </div>
   </nav>
 
-  <!-- Content view for public pages (no padding needed here as per your configuration) -->
   <main class="public-content">
     <router-outlet></router-outlet>
   </main>
 
-  <footer class="footer" style="text-align: center; padding: 2.5rem 1rem; color: #475569; font-size: 0.9rem; border-top: 1px solid #e2e8f0; background-color: #ffffff;">
-    <p>© 2026 Krupa Groups. All Rights Reserved.</p>
+  <footer class="public-footer">
+    <p class="public-copy">© 2026 <strong>Krupa Groups</strong>. All Rights Reserved.</p>
+    <p class="public-dev-credit">
+      Designed & Developed by Duvvada Lakshmi Prasad
+      <a href="https://https://github.com/prasadduvvada" target="_blank" rel="noopener noreferrer" class="public-credit-link">
+        check out my github
+      </a>
+      <a href="https://https://github.com/prasadduvvada" target="_blank" rel="noopener noreferrer" class="public-credit-link">
+        check out my LINKEDIN
+      </a>
+    </p>
   </footer>
 </div>
