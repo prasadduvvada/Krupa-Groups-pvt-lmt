@@ -15,12 +15,12 @@ export class FurnitureComponent implements OnInit {
   furnitureList: Furniture[] = [];
   furnitureForm!: FormGroup;
 
-  currentCategory: string = 'all';
-
   isModalOpen = false;
   isEditMode = false;
   currentEditingId: number | null = null;
-  selectedFile: File | null = null;
+
+  // 💡 THE LOADING TRIGGER: Synchronizes active shimmer visibility
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -39,39 +39,40 @@ export class FurnitureComponent implements OnInit {
       name: ['', Validators.required],
       category: ['', Validators.required],
       modelNumber: ['', Validators.required],
-      price: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+      price: [0, [Validators.required, Validators.min(1)]],
       dimensions: ['', Validators.required],
       woodType: ['', Validators.required]
     });
   }
 
-  onDeleteFurniture(id: number | undefined): void {
-    if (!id) return;
-    if (confirm('Are you sure you want to drop this design item from warehouse stock sheets?')) {
-      this.furnitureService.deleteFurniture(id).subscribe({
-        next: () => {
-          this.furnitureList = this.furnitureList.filter(f => f.id !== id);
-        },
-        // 🎯 FIXED: Explicit type added here to satisfy strict compiler checking
-        error: (err: any) => console.error('Error dropping furniture specification row:', err)
-      });
-    }
-  }
-
   loadAllFurniture(): void {
+    // 💡 Active network loading overlay state true
+    this.isLoading = true;
+
     this.furnitureService.getAllFurniture().subscribe({
-      next: (data: any[]) => {
+      next: (data: Furniture[]) => {
         this.furnitureList = data;
-        this.cdr.detectChanges(); // Ensures UI refreshes immediately upon data arrival
+        this.isLoading = false; // 💡 Shuts loading state down when data lands
+        this.cdr.detectChanges();
       },
-      error: (err: any) => console.error('Error fetching furniture catalog:', err)
+      error: (err: any) => {
+        console.error('Error compiling furniture data catalogue streams:', err);
+        this.isLoading = false; // Safety fallback reset
+        this.cdr.detectChanges();
+      }
     });
   }
 
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
+  onDeleteFurniture(id: number | undefined): void {
+    if (!id) return;
+    if (confirm('⚠️ Catalogue Alert: Are you sure you want to completely erase this product model from the database listings?')) {
+      this.furnitureService.deleteFurniture(id).subscribe({
+        next: () => {
+          this.furnitureList = this.furnitureList.filter(f => f.id !== id);
+          this.cdr.detectChanges();
+        },
+        error: (err: any) => console.error('Error removing inventory catalog object node:', err)
+      });
     }
   }
 
@@ -81,49 +82,31 @@ export class FurnitureComponent implements OnInit {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('name', this.furnitureForm.get('name')?.value);
-    formData.append('category', this.furnitureForm.get('category')?.value);
-    formData.append('modelNumber', this.furnitureForm.get('modelNumber')?.value);
-    formData.append('price', this.furnitureForm.get('price')?.value);
-    formData.append('dimensions', this.furnitureForm.get('dimensions')?.value);
-    formData.append('woodType', this.furnitureForm.get('woodType')?.value);
-
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile, this.selectedFile.name);
-    }
-
     if (this.isEditMode && this.currentEditingId !== null) {
-      this.furnitureService.updateFurniture(this.currentEditingId, formData).subscribe({
+      this.furnitureService.updateFurniture(this.currentEditingId, this.furnitureForm.value).subscribe({
         next: () => this.handleSuccess(),
-        error: (err: any) => console.error('Error updating item:', err)
+        error: (err: any) => console.error('Error updating stock inventory indices:', err)
       });
     } else {
-      this.furnitureService.addFurniture(formData).subscribe({
+      this.furnitureService.addFurniture(this.furnitureForm.value).subscribe({
         next: () => this.handleSuccess(),
-        error: (err: any) => console.error('Error adding item:', err)
+        error: (err: any) => console.error('Error creating wholesale furniture mapping entries:', err)
       });
     }
-  }
-
-  getImageUrl(id: number | undefined): string {
-    return id ? `https://krupa-groups-pvt-lmt.onrender.com/api/furniture/${id}/image` : 'assets/placeholder.jpg';
   }
 
   openAddModal(): void {
     this.isEditMode = false;
     this.currentEditingId = null;
-    this.selectedFile = null;
-    this.furnitureForm.reset();
+    this.furnitureForm.reset({ price: 0 });
     this.isModalOpen = true;
   }
 
   openEditModal(item: Furniture): void {
     this.isEditMode = true;
     this.currentEditingId = item.id ?? null;
-    this.selectedFile = null;
     this.isModalOpen = true;
-    
+
     this.furnitureForm.patchValue({
       name: item.name,
       category: item.category,
@@ -137,7 +120,6 @@ export class FurnitureComponent implements OnInit {
   closeModal(): void {
     this.isModalOpen = false;
     this.furnitureForm.reset();
-    this.selectedFile = null;
   }
 
   private handleSuccess(): void {

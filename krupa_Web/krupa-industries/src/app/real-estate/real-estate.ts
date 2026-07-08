@@ -22,6 +22,9 @@ export class RealEstateComponent implements OnInit {
   currentEditingId: number | null = null;
   selectedFile: File | null = null;
 
+  // 💡 THE LOADING TRIGGER: Monitors network data stream state
+  isLoading = false;
+
   constructor(
     private fb: FormBuilder,
     private projectService: RealEstateService,
@@ -45,29 +48,35 @@ export class RealEstateComponent implements OnInit {
     });
   }
 
+  loadAllProjects(): void {
+    // 💡 Turn loader on before request goes over the cloud network
+    this.isLoading = true;
+
+    this.projectService.getAllProjects().subscribe({
+      next: (data: Project[]) => {
+        this.projectList = data;
+        this.isLoading = false; // 💡 Turn loader off instantly when data arrives!
+        this.cdr.detectChanges(); // Guarantees instant UI element sync
+      },
+      error: (err: any) => {
+        console.error('Error fetching real estate data registry:', err);
+        this.isLoading = false; // Ensure loader shuts down even if network drops
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   onDeleteProject(id: number | undefined): void {
     if (!id) return;
     if (confirm('⚠️ Structural Alert: Are you completely sure you want to delete this architectural listing? This cannot be undone.')) {
       this.projectService.deleteProject(id).subscribe({
         next: () => {
-          // Instantly filter out the deleted project item from the UI view array
           this.projectList = this.projectList.filter(p => p.id !== id);
           this.cdr.detectChanges();
         },
-        // 🎯 FIXED: Explicit type 'any' added here to clear the TS7006 implicit any error
         error: (err: any) => console.error('Error removing project landmark entry:', err)
       });
     }
-  }
-
-  loadAllProjects(): void {
-    this.projectService.getAllProjects().subscribe({
-      next: (data: Project[]) => {
-        this.projectList = data;
-        this.cdr.detectChanges(); // Guarantees instant UI element sync
-      },
-      error: (err: any) => console.error('Error fetching real estate data registry:', err)
-    });
   }
 
   onFileSelected(event: any): void {
