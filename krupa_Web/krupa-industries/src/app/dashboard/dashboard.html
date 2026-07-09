@@ -15,7 +15,9 @@
         </div>
         <h3 style="margin: 0; font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Total Projects</h3>
       </div>
-      <div style="font-size: 2.25rem; font-weight: 800; color: #f8fafc;">{{ totalProjectCount }}</div>
+      <!-- 💡 INLINE ANIMATION SELECTION FOR STATS BLOCKS -->
+      <div class="skeleton-line-dark" style="width: 50px; height: 36px;" *ngIf="isLoading"></div>
+      <div style="font-size: 2.25rem; font-weight: 800; color: #f8fafc;" *ngIf="!isLoading">{{ totalProjectCount }}</div>
     </div>
 
     <!-- Active Sites -->
@@ -26,7 +28,8 @@
         </div>
         <h3 style="margin: 0; font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Active Sites</h3>
       </div>
-      <div style="font-size: 2.25rem; font-weight: 800; color: #10b981;">{{ activeProjectsCount }}</div>
+      <div class="skeleton-line-dark" style="width: 50px; height: 36px;" *ngIf="isLoading"></div>
+      <div style="font-size: 2.25rem; font-weight: 800; color: #10b981;" *ngIf="!isLoading">{{ activeProjectsCount }}</div>
     </div>
 
     <!-- Furniture Stock -->
@@ -37,7 +40,8 @@
         </div>
         <h3 style="margin: 0; font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Furniture Stock</h3>
       </div>
-      <div style="font-size: 2.25rem; font-weight: 800; color: #f8fafc;">{{ totalFurnitureCount }}</div>
+      <div class="skeleton-line-dark" style="width: 50px; height: 36px;" *ngIf="isLoading"></div>
+      <div style="font-size: 2.25rem; font-weight: 800; color: #f8fafc;" *ngIf="!isLoading">{{ totalFurnitureCount }}</div>
     </div>
 
     <!-- Stock Valuation -->
@@ -48,8 +52,9 @@
         </div>
         <h3 style="margin: 0; font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Stock Valuation</h3>
       </div>
-      <div style="font-size: 0.95rem; font-weight: 600; color: #94a3b8; margin-bottom: 4px;">can build</div>
-      <div style="font-size: 2.25rem; font-weight: 800; color: #fbbf24;">₹{{ totalFurnitureValue }}</div>
+      <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Total Assets Valuation</div>
+      <div class="skeleton-line-dark" style="width: 130px; height: 36px;" *ngIf="isLoading"></div>
+      <div style="font-size: 2.25rem; font-weight: 800; color: #fbbf24;" *ngIf="!isLoading">₹{{ totalFurnitureValue | number:'1.0-0' }}</div>
     </div>
   </div>
 

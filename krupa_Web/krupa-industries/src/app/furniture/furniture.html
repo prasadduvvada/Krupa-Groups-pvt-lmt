@@ -16,7 +16,37 @@
 
   <!-- Enterprise Stock Data Grid Panel -->
   <div style="background: #121824; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4); overflow: hidden;">
-    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    
+    <!-- 💡 CONDITION A: ADMIN PANEL SKELETON LOADER (Dark Theme) -->
+    <table style="width: 100%; border-collapse: collapse; text-align: left;" *ngIf="isLoading">
+      <thead>
+        <tr style="background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+          <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Product Stream</th>
+          <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Item Name</th>
+          <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Category</th>
+          <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">SKU Code</th>
+          <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Base Price</th>
+          <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Dimensions</th>
+          <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Timber Core</th>
+          <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; text-align: center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let placeholder of [1,2,3]" style="border-bottom: 1px solid rgba(255, 255, 255, 0.03);">
+          <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 60px; height: 60px; border-radius: 8px;"></div></td>
+          <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 150px; height: 20px;"></div></td>
+          <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 80px; height: 22px; border-radius: 6px;"></div></td>
+          <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 90px; height: 22px; border-radius: 4px;"></div></td>
+          <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 80px; height: 20px;"></div></td>
+          <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 110px; height: 16px;"></div></td>
+          <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 95px; height: 18px;"></div></td>
+          <td style="padding: 16px 24px; text-align: center;"><div class="skeleton-line-dark" style="width: 140px; height: 32px; margin: 0 auto; border-radius: 6px;"></div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 💡 CONDITION B: ORIGINAL WORKING ADMIN TABLE (Revealed when data is ready) -->
+    <table style="width: 100%; border-collapse: collapse; text-align: left;" *ngIf="!isLoading">
       <thead>
         <tr style="background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
           <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Product Stream</th>
@@ -152,7 +182,27 @@
     </button>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 36px;">
+  <!-- 💡 CONDITION C: PUBLIC STOREFRONT SKELETON CARDS LOADERS (Light Theme) -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 36px;" *ngIf="isLoading">
+    <div class="skeleton-card-light" *ngFor="let skeleton of [1,2,3]">
+      <div class="skeleton-image-light"></div>
+      <div style="padding: 28px; background: #ffffff;">
+        <div class="skeleton-line-light title"></div>
+        <div class="skeleton-line-light short-desc" style="width: 50%;"></div>
+        <div class="skeleton-line-light short-desc" style="width: 85%; margin-top: 14px;"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid #f1f5f9; margin-top: 24px;">
+          <div style="width: 40%;">
+            <div class="skeleton-line-light" style="width: 60%; height: 10px; margin-bottom: 4px;"></div>
+            <div class="skeleton-line-light" style="width: 100%; height: 22px; margin-bottom: 0;"></div>
+          </div>
+          <div class="skeleton-line-light" style="width: 110px; height: 38px; border-radius: 10px; margin-bottom: 0;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💡 CONDITION D: ORIGINAL PUBLIC CUSTOMER GRID DISPLAY (Revealed once loaded) -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 36px;" *ngIf="!isLoading">
     <ng-container *ngFor="let item of furnitureList">
       <div *ngIf="currentCategory === 'all' || item.category.toUpperCase() === currentCategory" class="luxury-card" style="background: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; position: relative;">
         
@@ -188,7 +238,8 @@
     </ng-container>
   </div>
 
-  <div *ngIf="furnitureList.length === 0" style="text-align: center; padding: 100px 40px; border: 2px dashed #cbd5e1; border-radius: 20px; margin-top: 20px; background-color: #f8fafc; max-width: 600px; margin-left: auto; margin-right: auto;">
+  <!-- 💡 CONDITION E: ORIGINAL EMPTY REJECTION FALLBACK -->
+  <div *ngIf="!isLoading && furnitureList.length === 0" style="text-align: center; padding: 100px 40px; border: 2px dashed #cbd5e1; border-radius: 20px; margin-top: 20px; background-color: #f8fafc; max-width: 600px; margin-left: auto; margin-right: auto;">
     <div style="font-size: 3rem; margin-bottom: 16px;">📦</div>
     <h4 style="margin: 0 0 8px 0; font-size: 1.15rem; color: #0b1e36; font-weight: 700;">Design Registries Loading</h4>
     <p style="color: #64748b; font-size: 0.95rem; margin: 0; font-weight: 500;">Our wholesale production stock lines are updating with the warehouse plants. Please check back shortly.</p>

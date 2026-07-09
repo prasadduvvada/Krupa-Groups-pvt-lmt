@@ -1,154 +1,395 @@
-<!-- ========================================== -->
-<!-- 1. UPPER UTILITY CONTROLS BAR              -->
-<!-- ========================================== -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 16px;">
-  <!-- Tab Filter Controls Switches -->
-  <div style="display: flex; gap: 8px; background: rgba(255,255,255,0.02); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
-    <button 
-      (click)="currentTab = 'ACTIVE'" 
-      [style.background]="currentTab === 'ACTIVE' ? '#1e293b' : 'transparent'"
-      [style.color]="currentTab === 'ACTIVE' ? '#38bdf8' : '#94a3b8'"
-      style="border: none; padding: 8px 16px; font-weight: 600; font-size: 0.85rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;">
-      Active Structural Portfolios
-    </button>
-    <button 
-      (click)="currentTab = 'COMPLETED'" 
-      [style.background]="currentTab === 'COMPLETED' ? '#1e293b' : 'transparent'"
-      [style.color]="currentTab === 'COMPLETED' ? '#38bdf8' : '#94a3b8'"
-      style="border: none; padding: 8px 16px; font-weight: 600; font-size: 0.85rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;">
-      Completed Architectural Listings
+<div class="real-estate-admin-container" style="padding: 20px 0; font-family: 'Inter', system-ui, sans-serif; background-color: transparent;" *ngIf="authService.isLoggedIn()">
+  
+  <div class="admin-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 20px;">
+    <div>
+      <h2 style="margin: 0 0 6px 0; font-size: 1.75rem; font-weight: 800; color: #f8fafc; letter-spacing: -0.5px; filter: drop-shadow(0 0 10px rgba(248, 250, 252, 0.05));">Real Estate Registry</h2>
+      <p style="margin: 0; color: #94a3b8; font-size: 0.9rem;">Internal records control and development prospectus data mapping.</p>
+    </div>
+    <button (click)="openAddModal()" style="padding: 12px 24px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; box-shadow: 0 0 15px rgba(59, 130, 246, 0.15); display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
+      <span style="font-size: 1.1rem;">+</span> Create Property Entry
     </button>
   </div>
 
-  <!-- Admin Elevation Actions Trigger -->
-  <button 
-    *ngIf="authService.isLoggedIn()" 
-    (click)="openAddModal()" 
-    style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; border: none; padding: 10px 20px; font-weight: 700; border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px rgba(37,99,235,0.3);">
-    + Register New Project Node
-  </button>
-</div>
+  <div style="background: #121824; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4); overflow: hidden;">
+    <div style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      
+      <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 900px;" *ngIf="isLoading">
+        <thead>
+          <tr style="background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Elevation View</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Project Title</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Property Type</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Status</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Valuation Tier</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Summary Description</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; text-align: center;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let placeholder of [1,2,3]" style="border-bottom: 1px solid rgba(255, 255, 255, 0.03);">
+            <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 80px; height: 55px; border-radius: 6px;"></div></td>
+            <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 140px; height: 20px;"></div></td>
+            <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 85px; height: 22px; border-radius: 6px;"></div></td>
+            <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 75px; height: 22px; border-radius: 20px;"></div></td>
+            <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 100px; height: 22px;"></div></td>
+            <td style="padding: 16px 24px;"><div class="skeleton-line-dark" style="width: 220px; height: 16px;"></div></td>
+            <td style="padding: 16px 24px; text-align: center;"><div class="skeleton-line-dark" style="width: 130px; height: 32px; margin: 0 auto; border-radius: 6px;"></div></td>
+          </tr>
+        </tbody>
+      </table>
 
-<!-- ========================================== -->
-<!-- 2. CENTRAL LAYOUT DATA STREAM WINDOWS       -->
-<!-- ========================================== -->
+      <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 900px;" *ngIf="!isLoading">
+        <thead>
+          <tr style="background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Elevation View</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Project Title</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Property Type</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Status</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Valuation Tier</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Summary Description</th>
+            <th style="padding: 16px 24px; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; text-align: center;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of projectList" style="border-bottom: 1px solid rgba(255, 255, 255, 0.03); transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.01)'" onmouseout="this.style.backgroundColor='transparent'">
+            <td style="padding: 16px 24px;">
+              <img [src]="getImageUrl(project.id)" alt="preview" style="width: 80px; height: 55px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background-color: rgba(255,255,255,0.05); display: block;"/>
+            </td>
+            <td style="padding: 16px 24px; font-weight: 700; color: #f8fafc; font-size: 0.95rem;">{{ project.title }}</td>
+            <td style="padding: 16px 24px; color: #94a3b8; font-size: 0.9rem;">
+              <span style="background: rgba(255, 255, 255, 0.04); padding: 4px 10px; border-radius: 6px; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8;">{{ project.type }}</span>
+            </td>
+            <td style="padding: 16px 24px;">
+              <span [style.background]="project.status === 'ACTIVE' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(245, 158, 11, 0.1)'" 
+                    [style.color]="project.status === 'ACTIVE' ? '#10b981' : '#fbbf24'"
+                    [style.border]="project.status === 'ACTIVE' ? '1px solid rgba(16, 185, 129, 0.2)' : '1px solid rgba(245, 158, 11, 0.2)'"
+                    style="padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block;">
+                ● {{ project.status }}
+              </span>
+            </td>
+            <td style="padding: 16px 24px; font-weight: 800; color: #38bdf8; font-size: 1rem;">{{ project.priceText }}</td>
+            <td style="padding: 16px 24px; color: #94a3b8; font-size: 0.9rem; max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ project.shortDescription }}</td>
+            
+            <td style="padding: 16px 24px; text-align: center;">
+              <div style="display: flex; gap: 8px; justify-content: center; align-items: center;">
+                <button (click)="openEditModal(project)" style="padding: 8px 14px; background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='rgba(59, 130, 246, 0.2)'" onmouseout="this.style.background='rgba(59, 130, 246, 0.1)'">Modify</button>
+                <button (click)="onDeleteProject(project.id)" style="padding: 8px 14px; background: rgba(220, 53, 69, 0.06); color: #f87171; border: 1px solid rgba(220, 53, 69, 0.15); border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(220, 53, 69, 0.15)'" onmouseout="this.style.background='rgba(220, 53, 69, 0.06)'">Remove</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-<!-- CONDITION 1: While background network threads execute, spin up shimmering skeleton arrays -->
-@if (isLoading) {
-  <div class="skeleton-grid">
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-line title"></div>
-      <div class="skeleton-line short-desc"></div>
-      <div class="skeleton-line badge"></div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-line title"></div>
-      <div class="skeleton-line short-desc"></div>
-      <div class="skeleton-line badge"></div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-line title"></div>
-      <div class="skeleton-line short-desc"></div>
-      <div class="skeleton-line badge"></div>
     </div>
   </div>
-}
 
-<!-- CONDITION 2: Server answered successfully, but targeted registry data columns are entirely clean -->
-@else if (projectList.length === 0) {
-  <div class="no-data-fallback">
-    <p>No architecture models or properties listed under this category context yet.</p>
-  </div>
-}
-
-<!-- CONDITION 3: Active entries discovered! Run asset item loops -->
-@else {
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
-    <!-- Filter listing records sequentially inside template based on active state criteria -->
-    <ng-container *ngFor="let project of projectList">
-      <div *ngIf="project.status === currentTab" style="background: #121824; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;">
-        
-        <!-- Image Canvas Display frame -->
-        <div style="width: 100%; height: 200px; background: #090d16; position: relative;">
-          <img [src]="getImageUrl(project.id)" [alt]="project.title" style="width: 100%; height: 100%; object-fit: cover;">
-          <span style="position: absolute; top: 12px; right: 12px; background: rgba(9,13,22,0.85); backdrop-filter: blur(4px); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #38bdf8; border: 1px solid rgba(56,189,248,0.2);">
-            {{project.type}}
-          </span>
+  <div *ngIf="isModalOpen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 16, 0.75); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 2000;">
+    <div style="background: #121824; padding: 32px; border-radius: 16px; width: 580px; max-width: 92%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); border: 1px solid rgba(255, 255, 255, 0.05); color: #f8fafc;">
+      <h3 style="margin: 0 0 24px 0; font-size: 1.35rem; font-weight: 800; color: #f8fafc; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px;">Form Specification Editor</h3>
+      
+      <form [formGroup]="projectForm" (ngSubmit)="onSaveProject()">
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #94a3b8;">Project Title*</label>
+          <input type="text" formControlName="title" style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; background: #090d16; color: #f8fafc; box-sizing: border-box; outline: none;" />
         </div>
-
-        <!-- Description Block fields -->
-        <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 10px;">
-          <h3 style="margin: 0; font-size: 1.1rem; color: #f8fafc; font-weight: 700;">{{project.title}}</h3>
-          <p style="margin: 0; font-size: 0.85rem; color: #94a3b8; line-height: 1.5; flex: 1;">{{project.shortDescription}}</p>
-          <div style="font-size: 1.05rem; font-weight: 800; color: #10b981; margin-top: 5px;">{{project.priceText}}</div>
-          
-          <!-- Admin control button tools -->
-          <div *ngIf="authService.isLoggedIn()" style="display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
-            <button (click)="openEditModal(project)" style="flex: 1; background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); padding: 8px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.8rem;">
-              ✏️ Modify Listing
-            </button>
-            <button (click)="onDeleteProject(project.id)" style="background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
-              🗑️
-            </button>
+        
+        <div style="display: flex; gap: 14px; margin-bottom: 14px;">
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #94a3b8;">Type*</label>
+            <input type="text" formControlName="type" style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; background: #090d16; color: #f8fafc; box-sizing: border-box; outline: none;" />
+          </div>
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #94a3b8;">Status*</label>
+            <select formControlName="status" style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; height: 40px; background: #090d16; color: #f8fafc; outline: none;">
+              <option value="ACTIVE" style="background: #121824; color: #f8fafc;">ACTIVE</option>
+              <option value="COMPLETED" style="background: #121824; color: #f8fafc;">COMPLETED</option>
+            </select>
           </div>
         </div>
-
-      </div>
-    </ng-container>
-  </div>
-}
-
-<!-- ========================================== -->
-<!-- 3. MODAL POPUP FORM FRAMES INTERFACE       -->
-<!-- ========================================== -->
-<div class="modal-overlay" *ngIf="isModalOpen">
-  <div class="modal-card" style="background: #121824; border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 500px; border-radius: 12px; padding: 24px;">
-    <h2 style="color: #f8fafc; margin-top: 0; font-size: 1.25rem; font-weight: 700; margin-bottom: 20px;">
-      {{ isEditMode ? 'Modify Project Configuration' : 'Register New Project Landmark' }}
-    </h2>
-    
-    <form [formGroup]="projectForm" (ngSubmit)="onSaveProject()" style="display: flex; flex-direction: column; gap: 16px;">
-      <div>
-        <label style="display: block; color: #94a3b8; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">PROJECT NAME / TITLE</label>
-        <input type="text" formControlName="title" style="width: 100%; background: #090d16; border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; color: white; box-sizing: border-box;">
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div>
-          <label style="display: block; color: #94a3b8; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">ARCHITECTURAL TYPE</label>
-          <input type="text" formControlName="type" placeholder="e.g. Apartment, Villa" style="width: 100%; background: #090d16; border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; color: white; box-sizing: border-box;">
+        
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #94a3b8;">Price Text*</label>
+          <input type="text" formControlName="priceText" style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; background: #090d16; color: #f8fafc; box-sizing: border-box; outline: none;" />
         </div>
-        <div>
-          <label style="display: block; color: #94a3b8; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">REGISTRY STATUS</label>
-          <select formControlName="status" style="width: 100%; background: #090d16; border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; color: white; box-sizing: border-box;">
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="COMPLETED">COMPLETED</option>
-          </select>
+        
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #94a3b8;">Short Summary Description*</label>
+          <input type="text" formControlName="shortDescription" style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; background: #090d16; color: #f8fafc; box-sizing: border-box; outline: none;" />
         </div>
-      </div>
-
-      <div>
-        <label style="display: block; color: #94a3b8; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">VALUATION PRICE STRING</label>
-        <input type="text" formControlName="priceText" placeholder="e.g. ₹75 Lakhs onwards" style="width: 100%; background: #090d16; border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; color: white; box-sizing: border-box;">
-      </div>
-
-      <div>
-        <label style="display: block; color: #94a3b8; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">SHORT CARD OVERVIEW</label>
-        <textarea formControlName="shortDescription" rows="2" style="width: 100%; background: #090d16; border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; color: white; resize: none; box-sizing: border-box;"></textarea>
-      </div>
-
-      <div>
-        <label style="display: block; color: #94a3b8; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">ELEVATION IMAGE ASSET (.JPG / .PNG)</label>
-        <input type="file" (change)="onFileSelected($event)" accept="image/*" style="color: #94a3b8; font-size: 0.85rem;">
-      </div>
-
-      <div style="display: flex; gap: 12px; margin-top: 10px; justify-content: flex-end;">
-        <button type="button" (click)="closeModal()" style="background: transparent; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600;">Cancel</button>
-        <button type="submit" style="background: #2563eb; color: white; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-weight: 700;">Save Listing</button>
-      </div>
-    </form>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #94a3b8;">Full Details Layout Paragraph text</label>
+          <textarea formControlName="fullDetails" rows="2" style="width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; background: #090d16; color: #f8fafc; box-sizing: border-box; outline: none; resize: vertical;"></textarea>
+        </div>
+        
+        <div style="margin-bottom: 24px; background: #090d16; padding: 12px; border-radius: 8px; border: 1px dashed rgba(255, 255, 255, 0.15); color: #cbd5e1;">
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" style="color: #94a3b8;" />
+        </div>
+        
+        <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 20px;">
+          <button type="button" (click)="closeModal()" style="padding: 10px 20px; background: #1e293b; color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; cursor: pointer; font-weight: 600;">Cancel</button>
+          <button type="submit" [disabled]="projectForm.invalid" [style.opacity]="projectForm.invalid ? 0.4 : 1" style="padding: 10px 20px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);">Save</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
+
+
+<div class="public-storefront-container" style="font-family: 'Inter', system-ui, sans-serif; background-color: #ffffff; min-height: 100vh;" *ngIf="!authService.isLoggedIn()">
+  
+  <div style="background: #091d36; color: #f8fafc; text-align: center; padding: 14px 24px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px;">
+    ✨ AP RERA Registered Structural Landmark Implementations Matrix • <span style="text-decoration: underline; color: #60a5fa;">Corporate Layout Portfolios</span>
+  </div>
+
+  <div class="public-hero-section" style="display: flex; min-height: 540px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 60px; background: linear-gradient(135deg, #f4f8fc 0%, #e9f1f7 100%); position: relative; overflow: hidden;">
+    
+    <div class="public-hero-content" style="flex: 1.1; min-width: 320px; padding: 60px max(2rem, (100vw - 1200px)/2); display: flex; flex-direction: column; justify-content: center; z-index: 10;">
+      <span style="color: #2563eb; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; display: block;">Krupa Landscaping Studios</span>
+      
+      <h1 style="font-size: clamp(2.8rem, 5vw, 4rem); font-weight: 900; color: #091d36; margin: 0 0 28px 0; line-height: 1.1; letter-spacing: -1.5px;">
+        Own Your <br><span style="color: #2563eb; position: relative; display: inline-block;">Space<span style="position: absolute; bottom: 4px; left: 0; width: 100%; height: 8px; background: rgba(37, 99, 235, 0.15); border-radius: 4px; z-index: -1;"></span></span>
+      </h1>
+      
+      <div style="display: flex; gap: 12px; margin-bottom: 28px; background: rgba(15, 23, 42, 0.04); padding: 6px; border-radius: 12px; width: fit-content; border: 1px solid rgba(0,0,0,0.03);">
+        <button (click)="currentTab = 'ACTIVE'" 
+                [style.background]="currentTab === 'ACTIVE' ? '#091d36' : 'transparent'"
+                [style.color]="currentTab === 'ACTIVE' ? '#ffffff' : '#475569'"
+                [style.box-shadow]="currentTab === 'ACTIVE' ? '0 4px 12px rgba(9,29,54,0.15)' : 'none'"
+                style="border: none; padding: 12px 24px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
+          🚧 Ongoing Ventures
+        </button>
+        <button (click)="currentTab = 'COMPLETED'" 
+                [style.background]="currentTab === 'COMPLETED' ? '#091d36' : 'transparent'"
+                [style.color]="currentTab === 'COMPLETED' ? '#ffffff' : '#475569'"
+                [style.box-shadow]="currentTab === 'COMPLETED' ? '0 4px 12px rgba(9,29,54,0.15)' : 'none'"
+                style="border: none; padding: 12px 24px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
+          🏆 Completed Landmarks
+        </button>
+      </div>
+
+      <div style="background: #ffffff; padding: 20px 24px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.03); border-left: 4px solid #091d36; max-width: 480px;">
+        <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.5; font-weight: 500;">
+          Filter property records directly using the toggle controls above to review live blueprints managed by our regional construction engineers.
+        </p>
+      </div>
+    </div>
+
+    <div class="public-hero-image-wrapper" style="flex: 1; min-width: 360px; height: 540px; position: relative;">
+      <div class="public-hero-image" style="width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80') center/cover; border-top-left-radius: 300px; border-bottom-left-radius: 300px; box-shadow: -15px 0 35px rgba(0,0,0,0.03);"></div>
+    </div>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px 20px 40px 20px; max-width: 700px; margin: 0 auto;">
+    <h2 style="font-size: 2.25rem; font-weight: 900; color: #091d36; margin: 0 0 12px 0; letter-spacing: -0.75px;">
+      {{ currentTab === 'ACTIVE' ? 'Active Construction Allocations' : 'Archived Architectural Landmarks' }}
+    </h2>
+    <p style="margin: 0; color: #64748b; font-size: 1.05rem; line-height: 1.5; font-weight: 500;">
+      Premium commercial allocations verified and categorized dynamically based on active sector project statuses.
+    </p>
+  </div>
+
+  <div class="public-grid-wrapper" style="padding: 0 max(2rem, (100vw - 1200px)/2) 100px max(2rem, (100vw - 1200px)/2);">
+    
+    <div class="public-products-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px;" *ngIf="isLoading">
+      <div class="skeleton-card-light" *ngFor="let skeleton of [1,2,3]">
+        <div class="skeleton-image-light"></div>
+        <div style="padding: 28px; background: #ffffff;">
+          <div class="skeleton-line-light title"></div>
+          <div class="skeleton-line-light short-desc"></div>
+          <div class="skeleton-line-light short-desc" style="width: 70%;"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid #f1f5f9; margin-top: 24px;">
+            <div style="width: 50%;">
+              <div class="skeleton-line-light" style="width: 70%; height: 10px; margin-bottom: 4px;"></div>
+              <div class="skeleton-line-light" style="width: 90%; height: 22px; margin-bottom: 0;"></div>
+            </div>
+            <div class="skeleton-line-light" style="width: 80px; height: 24px; border-radius: 30px; margin-bottom: 0;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="public-products-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px;" *ngIf="!isLoading">
+      <ng-container *ngFor="let project of projectList">
+        <div *ngIf="project.status === currentTab" class="luxury-card" style="background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); display: flex; flex-direction: column; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative;">
+          
+          <div style="position: relative; height: 230px; background: #f1f5f9; overflow: hidden;">
+            <img [src]="getImageUrl(project.id)" alt="{{ project.title }}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+            <span style="position: absolute; bottom: 16px; left: 16px; background: rgba(9, 29, 54, 0.85); backdrop-filter: blur(8px); color: #ffffff; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+              🏢 {{ project.type }}
+            </span>
+          </div>
+
+          <div style="padding: 28px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; background: #ffffff;">
+            <div style="margin-bottom: 24px;">
+              <h3 style="margin: 0 0 10px 0; font-size: 1.35rem; color: #091d36; font-weight: 800; letter-spacing: -0.3px; line-height: 1.2;">{{ project.title }}</h3>
+              <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.5; font-weight: 500;">{{ project.shortDescription }}</p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+              <div>
+                <span style="display: block; font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px;">Investment Tier</span>
+                <span style="font-size: 1.4rem; font-weight: 900; color: #2563eb; letter-spacing: -0.5px;">{{ project.priceText }}</span>
+              </div>
+              <span [style.background]="project.status === 'ACTIVE' ? '#e0f2fe' : '#f1f5f9'"
+                    [style.color]="project.status === 'ACTIVE' ? '#0369a1' : '#475569'"
+                    style="font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 30px; display: inline-flex; align-items: center; gap: 4px;">
+                ● {{ project.status }}
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </ng-container>
+    </div>
+
+    <div *ngIf="!isLoading && (projectList | json) === '[]'" style="text-align: center; padding: 100px 40px; border: 2px dashed #cbd5e1; border-radius: 16px; margin-top: 20px; background-color: #f8fafc; max-width: 600px; margin-left: auto; margin-right: auto;">
+      <div style="font-size: 3rem; margin-bottom: 16px;">📂</div>
+      <h4 style="margin: 0 0 8px 0; font-size: 1.15rem; color: #091d36; font-weight: 700;">No Items Categorized Here</h4>
+      <p style="color: #64748b; font-size: 0.95rem; margin: 0; font-weight: 500;">There are currently no real estate developments logged under this sector status choice configuration filter tab index.</p>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  /* --- Dark Theme Table Rows Shimmer Base (Admin Workspace) --- */
+  .skeleton-line-dark {
+    background: #1e293b;
+    position: relative;
+    overflow: hidden;
+    height: 18px;
+    border-radius: 4px;
+  }
+  .skeleton-line-dark::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.03) 20%,
+      rgba(255, 255, 255, 0.07) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: corporate-shimmer 1.5s infinite;
+  }
+
+  /* --- Light Theme Cards Shimmer Canvas (Public Showcases) --- */
+  .skeleton-card-light {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+  }
+  .skeleton-image-light {
+    height: 230px;
+    background: #f1f5f9;
+    position: relative;
+    overflow: hidden;
+  }
+  .skeleton-line-light {
+    height: 16px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .skeleton-line-light.title { width: 65%; height: 24px; margin-bottom: 18px; }
+  .skeleton-line-light.short-desc { width: 100%; height: 14px; }
+
+  .skeleton-image-light::after,
+  .skeleton-line-light::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 40%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: corporate-shimmer 1.5s infinite;
+  }
+
+  @keyframes corporate-shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Standard Desktop Interactivity effects styles */
+  .luxury-card:hover { 
+    transform: translateY(-6px); 
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02) !important; 
+  }
+
+  /* Comprehensive Phone/Compact Tablet View Engine Rule Breaks (768px Width Threshold) */
+  @media (max-width: 768px) {
+    .real-estate-admin-container {
+      padding: 10px 12px !important;
+    }
+
+    .admin-header-row {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 16px !important;
+      margin-bottom: 24px !important;
+    }
+    
+    .admin-header-row button {
+      width: 100% !important;
+      justify-content: center !important;
+    }
+
+    .public-hero-section {
+      flex-direction: column !important;
+      min-height: auto !important;
+      margin-bottom: 40px !important;
+    }
+    
+    .public-hero-content {
+      min-width: 100% !important;
+      padding: 40px 16px !important;
+      text-align: center !important;
+      align-items: center !important;
+    }
+    
+    .public-hero-content h1 {
+      font-size: 2.2rem !important;
+      margin-bottom: 20px !important;
+    }
+    
+    .public-hero-content > div:nth-of-type(1) {
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-bottom: 24px !important;
+    }
+
+    .public-hero-image-wrapper {
+      min-width: 100% !important;
+      height: 300px !important;
+    }
+    
+    .public-hero-image-wrapper .public-hero-image {
+      border-top-left-radius: 0px !important;
+      border-bottom-left-radius: 0px !important;
+    }
+
+    .public-products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+      gap: 20px !important;
+    }
+
+    .public-grid-wrapper {
+      padding: 0 16px 60px 16px !important;
+    }
+  }
+</style>
