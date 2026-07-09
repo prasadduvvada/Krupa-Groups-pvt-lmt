@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FurnitureService, Furniture } from '../services/furniture';
 import { AuthService } from '../auth.service';
+import imageCompression from 'browser-image-compression'; // 💡 Added image compression engine
 
 @Component({
   selector: 'app-furniture',
@@ -18,14 +19,8 @@ export class FurnitureComponent implements OnInit {
   isModalOpen = false;
   isEditMode = false;
   currentEditingId: number | null = null;
-
-  // 💡 FIXED: Added missing category tracking property used by your HTML filter buttons
   currentCategory: string = 'all';
-
-  // 💡 FIXED: Added missing file variable to hold physical image upload binary streams
   selectedFile: File | null = null;
-
-  // 💡 FIXED: Added loading state variable for your shimmering skeleton cards loader
   isLoading = false;
 
   constructor(
@@ -53,7 +48,6 @@ export class FurnitureComponent implements OnInit {
 
   loadAllFurniture(): void {
     this.isLoading = true;
-
     this.furnitureService.getAllFurniture().subscribe({
       next: (data: Furniture[]) => {
         this.furnitureList = data;
@@ -68,20 +62,35 @@ export class FurnitureComponent implements OnInit {
     });
   }
 
-  // 💡 FIXED: Added missing file interceptor triggered by file selection inputs
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
+  // 💡 UPGRADED: Intercepts wholesale item photos and applies client-side compression
+  async onFileSelected(event: any): Promise<void> {
+    const rawFile: File = event.target.files[0];
+    
+    if (rawFile) {
+      if (rawFile.type.startsWith('image/')) {
+        try {
+          const options = {
+            maxSizeMB: 0.5,           // 💡 Keeps file sizes under 500KB
+            maxWidthOrHeight: 1920,   
+            useWebWorker: true        
+          };
+          
+          this.selectedFile = await imageCompression(rawFile, options) as File;
+          console.log(`[Furniture] Compressed: ${(rawFile.size / 1024).toFixed(1)} KB ➡️ ${(this.selectedFile.size / 1024).toFixed(1)} KB`);
+        } catch (error) {
+          console.error('Compression failed, falling back to raw asset:', error);
+          this.selectedFile = rawFile;
+        }
+      } else {
+        this.selectedFile = rawFile;
+      }
     }
   }
 
-  // 💡 FIXED: Added missing image rendering mapper pointing to your backend Spring Boot API
   getImageUrl(id: number | undefined): string {
     return id ? `https://krupa-groups-pvt-lmt.onrender.com/api/furniture/${id}/image` : 'assets/placeholder.jpg';
   }
 
-  // 💡 FIXED: Bundling values cleanly into FormData streams to fit image upload pipelines
   onSaveFurniture(): void {
     if (this.furnitureForm.invalid) {
       this.furnitureForm.markAllAsTouched();
@@ -96,7 +105,6 @@ export class FurnitureComponent implements OnInit {
     formData.append('dimensions', this.furnitureForm.get('dimensions')?.value);
     formData.append('woodType', this.furnitureForm.get('woodType')?.value);
 
-    // If a new image file was picked, append it into the multipart frame
     if (this.selectedFile) {
       formData.append('image', this.selectedFile, this.selectedFile.name);
     }

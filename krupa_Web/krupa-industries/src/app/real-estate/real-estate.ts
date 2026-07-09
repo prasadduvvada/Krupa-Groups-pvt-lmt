@@ -1,8 +1,20 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RealEstateService, Project } from '../services/real-estate';
+import { RealEstateService } from '../services/real-estate';
 import { AuthService } from '../auth.service';
+import imageCompression from 'browser-image-compression';
+
+export interface Project {
+  id?: number;
+  title: string;
+  type: string;
+  status: string;
+  priceText: string;
+  shortDescription: string;
+  fullDetails?: string;
+}
+
 
 @Component({
   selector: 'app-real-estate',
@@ -14,16 +26,16 @@ import { AuthService } from '../auth.service';
 export class RealEstateComponent implements OnInit {
   projectList: Project[] = [];
   projectForm!: FormGroup;
-
-  currentTab: 'ACTIVE' | 'COMPLETED' = 'ACTIVE';
+  currentTab: string = 'ACTIVE';
 
   isModalOpen = false;
   isEditMode = false;
   currentEditingId: number | null = null;
   selectedFile: File | null = null;
-
-  // 💡 THE LOADING TRIGGER: Monitors network data stream state
   isLoading = false;
+
+  // 💡 FIXED: Track which project card is expanded down to show full details
+  expandedProjectId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -49,48 +61,47 @@ export class RealEstateComponent implements OnInit {
   }
 
   loadAllProjects(): void {
-    // 💡 Turn loader on before request goes over the cloud network
     this.isLoading = true;
-
     this.projectService.getAllProjects().subscribe({
       next: (data: Project[]) => {
         this.projectList = data;
-        this.isLoading = false; // 💡 Turn loader off instantly when data arrives!
-        this.cdr.detectChanges(); // Guarantees instant UI element sync
+        this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
-        console.error('Error fetching real estate data registry:', err);
-        this.isLoading = false; // Ensure loader shuts down even if network drops
+        console.error('Error fetching real estate streams:', err);
+        this.isLoading = false;
         this.cdr.detectChanges();
       }
     });
   }
 
-  onDeleteProject(id: number | undefined): void {
+  // 💡 FIXED: Click method to toggle card expansion frames open and closed
+  toggleExpandCard(id: number | undefined): void {
     if (!id) return;
-    if (confirm('⚠️ Structural Alert: Are you completely sure you want to delete this architectural listing? This cannot be undone.')) {
-      this.projectService.deleteProject(id).subscribe({
-        next: () => {
-          this.projectList = this.projectList.filter(p => p.id !== id);
-          this.cdr.detectChanges();
-        },
-        error: (err: any) => console.error('Error removing project landmark entry:', err)
-      });
+    this.expandedProjectId = this.expandedProjectId === id ? null : id;
+    this.cdr.detectChanges();
+  }
+
+  async onFileSelected(event: any): Promise<void> {
+    const rawFile: File = event.target.files[0];
+    if (rawFile && rawFile.type.startsWith('image/')) {
+      try {
+        const options = { maxSizeMB: 0.5, maxWidthOrHeight: 1920, useWebWorker: true };
+        this.selectedFile = (await imageCompression(rawFile, options)) as File;
+      } catch (error) {
+        console.error('Compression failed:', error);
+        this.selectedFile = rawFile;
+      }
     }
   }
 
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-    }
+  getImageUrl(id: number | undefined): string {
+    return id ? `https://krupa-groups-pvt-lmt.onrender.com/api/projects/${id}/image` : 'assets/placeholder.jpg';
   }
 
   onSaveProject(): void {
-    if (this.projectForm.invalid) {
-      this.projectForm.markAllAsTouched();
-      return;
-    }
+    if (this.projectForm.invalid) return;
 
     const formData = new FormData();
     formData.append('title', this.projectForm.get('title')?.value);
@@ -104,21 +115,26 @@ export class RealEstateComponent implements OnInit {
       formData.append('image', this.selectedFile, this.selectedFile.name);
     }
 
-    if (this.isEditMode && this.currentEditingId !== null) {
-      this.projectService.updateProject(this.currentEditingId, formData).subscribe({
-        next: () => this.handleSuccess(),
-        error: (err: any) => console.error('Error modifying property entry:', err)
-      });
-    } else {
-      this.projectService.addProject(formData).subscribe({
-        next: () => this.handleSuccess(),
-        error: (err: any) => console.error('Error adding new project node:', err)
-      });
-    }
+    const request$ =
+      this.isEditMode && this.currentEditingId !== null
+        ? this.projectService.updateProject(this.currentEditingId, formData)
+        : this.projectService.addProject(formData);
+
+    request$.subscribe({
+      next: () => {
+        this.closeModal();
+        this.loadAllProjects();
+      },
+      error: (err: any) => console.error('Save operation failed:', err)
+    });
   }
 
-  getImageUrl(id: number | undefined): string {
-    return id ? `https://krupa-groups-pvt-lmt.onrender.com/api/projects/${id}/image` : 'assets/placeholder.jpg';
+  onDeleteProject(id: number | undefined): void {
+    if (!id || !confirm('Are you sure you want to delete this property?')) return;
+    this.projectService.deleteProject(id).subscribe({
+      next: () => this.loadAllProjects(),
+      error: (err: any) => console.error('Deletion failed:', err)
+    });
   }
 
   openAddModal(): void {
@@ -134,25 +150,12 @@ export class RealEstateComponent implements OnInit {
     this.currentEditingId = project.id ?? null;
     this.selectedFile = null;
     this.isModalOpen = true;
-
-    this.projectForm.patchValue({
-      title: project.title,
-      type: project.type,
-      status: project.status,
-      priceText: project.priceText,
-      shortDescription: project.shortDescription,
-      fullDetails: project.fullDetails
-    });
+    this.projectForm.patchValue(project);
   }
 
   closeModal(): void {
     this.isModalOpen = false;
     this.projectForm.reset();
     this.selectedFile = null;
-  }
-
-  private handleSuccess(): void {
-    this.closeModal();
-    this.loadAllProjects();
   }
 }
