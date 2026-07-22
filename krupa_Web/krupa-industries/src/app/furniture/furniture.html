@@ -159,12 +159,12 @@
             style="padding: 10px 22px; border: 1px solid; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
       ✨ All Collection
     </button>
-    <button (click)="currentCategory = 'DINING'"
-            [style.background]="currentCategory === 'DINING' ? '#0b1e36' : '#ffffff'"
-            [style.color]="currentCategory === 'DINING' ? '#ffffff' : '#475569'"
-            [style.border-color]="currentCategory === 'DINING' ? '#0b1e36' : '#cbd5e1'"
+    <button (click)="currentCategory = 'TABLES'"
+            [style.background]="currentCategory === 'TABLES' ? '#0b1e36' : '#ffffff'"
+            [style.color]="currentCategory === 'TABLES' ? '#ffffff' : '#475569'"
+            [style.border-color]="currentCategory === 'TABLES' ? '#0b1e36' : '#cbd5e1'"
             style="padding: 10px 22px; border: 1px solid; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
-      🪑 Luxury Dining Sets
+          Dressing Tables
     </button>
     <button (click)="currentCategory = 'SOFA'"
             [style.background]="currentCategory === 'SOFA' ? '#0b1e36' : '#ffffff'"
@@ -204,7 +204,10 @@
   <!-- 💡 CONDITION D: ORIGINAL PUBLIC CUSTOMER GRID DISPLAY (Revealed once loaded) -->
   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 36px;" *ngIf="!isLoading">
     <ng-container *ngFor="let item of furnitureList">
-      <div *ngIf="currentCategory === 'all' || item.category.toUpperCase() === currentCategory" class="luxury-card" style="background: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; position: relative;">
+      <div *ngIf="currentCategory === 'all' || 
+                  (currentCategory === 'TABLES' && (item.category.toUpperCase().includes('TABLE') || item.category.toUpperCase().includes('DRESSING'))) || 
+                  item.category.toUpperCase() === currentCategory" 
+           class="luxury-card" style="background: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; position: relative;">
         
         <div style="position: relative; height: 250px; width: 100%; background-color: #f1f5f9; overflow: hidden;">
           <img [src]="getImageUrl(item.id)" alt="{{ item.name }}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
