@@ -151,19 +151,20 @@
       </h1>
       
       <div style="display: flex; gap: 12px; margin-bottom: 28px; background: rgba(15, 23, 42, 0.04); padding: 6px; border-radius: 12px; width: fit-content; border: 1px solid rgba(0,0,0,0.03);">
-        <button (click)="currentTab = 'ACTIVE'" 
-                [style.background]="currentTab === 'ACTIVE' ? '#091d36' : 'transparent'"
-                [style.color]="currentTab === 'ACTIVE' ? '#ffffff' : '#475569'"
-                [style.box-shadow]="currentTab === 'ACTIVE' ? '0 4px 12px rgba(9,29,54,0.15)' : 'none'"
-                style="border: none; padding: 12px 24px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
-          🚧 Ongoing Ventures
-        </button>
         <button (click)="currentTab = 'COMPLETED'" 
                 [style.background]="currentTab === 'COMPLETED' ? '#091d36' : 'transparent'"
                 [style.color]="currentTab === 'COMPLETED' ? '#ffffff' : '#475569'"
                 [style.box-shadow]="currentTab === 'COMPLETED' ? '0 4px 12px rgba(9,29,54,0.15)' : 'none'"
                 style="border: none; padding: 12px 24px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
           🏆 Completed Landmarks
+        </button>
+
+                <button (click)="currentTab = 'ACTIVE'" 
+                [style.background]="currentTab === 'ACTIVE' ? '#091d36' : 'transparent'"
+                [style.color]="currentTab === 'ACTIVE' ? '#ffffff' : '#475569'"
+                [style.box-shadow]="currentTab === 'ACTIVE' ? '0 4px 12px rgba(9,29,54,0.15)' : 'none'"
+                style="border: none; padding: 12px 24px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
+          🚧 Ongoing Ventures
         </button>
       </div>
 

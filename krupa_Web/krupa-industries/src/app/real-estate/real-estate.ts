@@ -26,7 +26,7 @@ export interface Project {
 export class RealEstateComponent implements OnInit {
   projectList: Project[] = [];
   projectForm!: FormGroup;
-  currentTab: string = 'ACTIVE';
+  currentTab: string = 'COMPLETED';
 
   isModalOpen = false;
   isEditMode = false;
